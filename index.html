@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carmela & Luigi — 21 luglio 2026</title>
+  <meta name="description" content="Sito matrimonio floreale di Carmela e Luigi." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+      --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+      --text-base:clamp(1rem,.95rem + .25vw,1.06rem);
+      --text-lg:clamp(1.125rem,1rem + .75vw,1.45rem);
+      --text-xl:clamp(1.55rem,1.2rem + 1.25vw,2.3rem);
+      --text-2xl:clamp(2.2rem,1.2rem + 2.8vw,4rem);
+      --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--space-20:5rem;
+      --color-bg:#f8f7f3;--color-surface:#fffdfa;--color-surface-2:#f5f1e9;--color-border:#e5dece;--color-divider:#ede6d9;
+      --color-text:#66674e;--color-text-muted:#7f8062;--color-text-faint:#a3a38c;--color-text-inverse:#fffdfa;
+      --color-primary:#c7a341;--color-primary-hover:#ae8c32;--color-primary-soft:#f3ecd5;--color-accent:#87916a;
+      --shadow-sm:0 12px 28px rgba(143,132,92,.08);--shadow-lg:0 24px 60px rgba(143,132,92,.14);
+      --radius-sm:.5rem;--radius-md:1rem;--radius-lg:1.5rem;--radius-xl:2rem;--radius-full:9999px;
+      --font-script:'Allura', cursive;--font-display:'Cormorant Garamond', serif;--font-smallcaps:'Cinzel', serif;--font-body:'Manrope', sans-serif;
+      --content:1180px;
+    }
+    [data-theme="dark"]{
+      --color-bg:#1f211b;--color-surface:#282b23;--color-surface-2:#30342b;--color-border:#424639;--color-divider:#3b3f35;
+      --color-text:#ece8d9;--color-text-muted:#d4cfbc;--color-text-faint:#a7a28f;--color-text-inverse:#1f211b;
+      --color-primary:#e0c36d;--color-primary-hover:#f0d58b;--color-primary-soft:#393729;--color-accent:#aab38e;
+      --shadow-sm:0 12px 28px rgba(0,0,0,.24);--shadow-lg:0 24px 60px rgba(0,0,0,.36);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.7;background:var(--color-bg);color:var(--color-text)}
+    img,svg{display:block;max-width:100%;height:auto}
+    a{color:inherit;text-decoration:none}
+    button,input{font:inherit}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px}
+    .skip-link{position:absolute;left:-9999px}.skip-link:focus{left:1rem;top:1rem;background:var(--color-surface);padding:.75rem 1rem;border-radius:var(--radius-sm);z-index:1000}
+    .container{width:min(calc(100% - 2rem),var(--content));margin-inline:auto}
+    .site-header{position:sticky;top:0;z-index:100;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-divider)}
+    .header-inner{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);padding:var(--space-4) 0}
+    .brand{display:flex;align-items:center;gap:var(--space-3)}
+    .logo{width:50px;height:50px;color:var(--color-primary)}
+    .brand-text strong{display:block;font-family:var(--font-script);font-size:2rem;line-height:1;color:var(--color-primary)}
+    .brand-text span{font-family:var(--font-smallcaps);font-size:var(--text-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--color-text-muted)}
+    nav ul{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none}
+    nav a,.theme-toggle{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:var(--radius-full)}
+    nav a:hover,.theme-toggle:hover{background:var(--color-surface-2)}
+    .theme-toggle{border:1px solid var(--color-border);background:var(--color-surface)}
+    main section{display:none}
+    main section.active{display:block}
+    .hero{padding:clamp(3rem,8vw,6rem) 0 1rem}
+    .hero-inner{max-width:920px;margin:0 auto;text-align:center}
+    .eyebrow,.smallcaps{font-family:var(--font-smallcaps);letter-spacing:.11em;text-transform:uppercase}
+    .eyebrow{display:block;color:var(--color-primary);font-size:var(--text-sm);margin-bottom:.75rem}
+    .smallcaps{color:var(--color-text-muted);font-size:var(--text-sm)}
+    h1,h2,h3{font-family:var(--font-display);line-height:1.08;font-weight:500}
+    h1{font-family:var(--font-script);font-size:clamp(4rem,8vw,7rem);color:var(--color-primary);font-weight:400;margin:.5rem 0 1rem}
+    h2{font-size:var(--text-xl);margin-bottom:1rem;color:var(--color-text)}
+    h3{font-size:1.6rem;margin-bottom:.75rem;color:var(--color-text)}
+    .lead{font-size:var(--text-lg);max-width:48ch;margin:0 auto;color:var(--color-text-muted)}
+    .hero-actions,.quick-links,.slide-controls{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+    .hero-actions{margin-top:1.6rem}
+    .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center;padding:.9rem 1.25rem;border-radius:var(--radius-full);border:1px solid transparent;font-weight:600}
+    .btn-primary{background:var(--color-primary);color:var(--color-text-inverse)}
+    .btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{background:var(--color-surface);border-color:var(--color-border)}
+    .wreath-wrap{margin:1.8rem auto 1.5rem;max-width:680px;position:relative}
+    .wreath{width:min(100%,680px);margin:0 auto}
+    .wreath-center{position:absolute;inset:18% 16%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+    .wreath-center .sub{font-family:var(--font-smallcaps);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text);font-size:var(--text-sm)}
+    .wreath-center .date-script{font-family:var(--font-script);font-size:clamp(2.6rem,5vw,4.5rem);color:var(--color-primary);line-height:1.05;margin:.8rem 0 .5rem}
+    .wreath-center .place-script{font-family:var(--font-script);font-size:clamp(1.8rem,3.6vw,3rem);color:var(--color-primary);line-height:1.1;margin-top:.7rem}
+    .section-block{padding:clamp(2rem,5vw,4rem) 0}
+    .cards-grid,.details-grid,.contacts-grid,.gallery-layout{display:grid;gap:var(--space-8)}
+    .cards-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .details-grid{grid-template-columns:1fr 1fr}
+    .contacts-grid,.gallery-layout{grid-template-columns:.95fr 1.05fr}
+    .card,.panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}
+    .card,.panel{padding:1.4rem}
+    .meta{color:var(--color-text-muted)}
+    .timeline{display:grid;gap:1rem;margin-top:1.1rem}
+    .timeline .item{padding:1rem 1.1rem;background:linear-gradient(90deg,var(--color-primary-soft),transparent 70%);border-left:2px solid var(--color-primary);border-radius:0 var(--radius-lg) var(--radius-lg) 0}
+    .list-clean{list-style:none;display:grid;gap:.85rem}
+    .list-clean li{padding-bottom:.85rem;border-bottom:1px solid var(--color-divider)}
+    .list-clean li:last-child{border-bottom:none;padding-bottom:0}
+    .map-links a{display:block;padding:.95rem 1rem;background:var(--color-surface-2);border-radius:var(--radius-md);margin-top:.75rem}
+    .map-links a:hover{background:var(--color-primary-soft)}
+    form{display:grid;gap:1rem}
+    label{display:grid;gap:.45rem;font-weight:600}
+    input{min-height:48px;padding:.9rem 1rem;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg)}
+    .helper{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .notice{padding:1rem 1.1rem;border-radius:var(--radius-md);background:var(--color-surface-2);color:var(--color-text-muted)}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1.2rem}
+    .gallery-item{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+    .gallery-item img{width:100%;aspect-ratio:1/1;object-fit:cover}
+    .gallery-item .caption{padding:.8rem .9rem}
+    .slideshow{min-height:430px;overflow:hidden}
+    .slide{display:none}.slide.active{display:block}
+    .slide img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-lg)}
+    .slide-meta{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-top:1rem;color:var(--color-text-muted)}
+    .slide-controls button{min-height:44px;padding:.8rem 1rem;border-radius:var(--radius-full);border:1px solid var(--color-border);background:var(--color-surface-2)}
+    .pill{display:inline-flex;align-items:center;padding:.55rem .9rem;border-radius:var(--radius-full);background:var(--color-primary-soft);color:var(--color-primary);font-size:var(--text-sm);margin:.25rem}
+    .site-footer{padding:2rem 0 3rem;color:var(--color-text-muted);text-align:center}
+    .floral-divider{display:flex;justify-content:center;margin:1.2rem 0}.floral-divider span{font-size:1.4rem;color:var(--color-primary)}
+    @media (max-width:900px){
+      .cards-grid,.details-grid,.contacts-grid,.gallery-layout{grid-template-columns:1fr}
+      .header-inner{flex-direction:column;align-items:flex-start}
+      .wreath-center{inset:20% 13%}
+      .slideshow{min-height:auto}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 64 64" aria-label="Logo floreale con cuore" fill="none">
+          <path d="M32 54c-2.7-3.2-5.8-5.8-9.4-8.5C16.2 41.8 11 36.8 11 28.7 11 20.9 16.5 15 24 15c4.1 0 6.6 1.5 8 4.7 1.4-3.2 3.9-4.7 8-4.7 7.5 0 13 5.9 13 13.7 0 8.1-5.2 13.1-11.6 17.8C37.8 49.2 34.7 51.8 32 55Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+          <circle cx="17" cy="23" r="2.2" fill="#8ca06a"></circle>
+          <circle cx="47" cy="22" r="2.2" fill="#d79ab1"></circle>
+          <circle cx="18" cy="39" r="2" fill="#8eb3d8"></circle>
+          <circle cx="45" cy="39" r="2" fill="#d8c26d"></circle>
+          <circle cx="32" cy="12.5" r="2" fill="#b78fd8"></circle>
+        </svg>
+        <div class="brand-text">
+          <strong>Carmela & Luigi</strong>
+          <span>21 luglio 2026</span>
+        </div>
+      </div>
+      <nav aria-label="Navigazione principale">
+        <ul>
+          <li><a href="#home" data-route>Home</a></li>
+          <li><a href="#contatti" data-route>Contatti</a></li>
+          <li><a href="#foto" data-route>Foto</a></li>
+          <li><button class="theme-toggle" data-theme-toggle aria-label="Cambia tema">☾</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenuto">
+    <section id="home" class="active" aria-labelledby="titolo-home">
+      <div class="container hero">
+        <div class="hero-inner">
+          <span class="eyebrow">Save the date</span>
+          <p class="smallcaps">Ventuno luglio duemilaventisei</p>
+          <div class="wreath-wrap">
+            <svg class="wreath" viewBox="0 0 700 700" aria-hidden="true">
+              <defs>
+                <g id="leafPair">
+                  <ellipse cx="0" cy="0" rx="8" ry="22" fill="#8f9c6e" transform="rotate(-25)"></ellipse>
+                  <ellipse cx="12" cy="10" rx="7" ry="18" fill="#a8b387" transform="rotate(18)"></ellipse>
+                </g>
+                <g id="flowerPink">
+                  <circle cx="0" cy="0" r="7" fill="#f8d7d5"></circle>
+                  <ellipse cx="0" cy="-11" rx="7" ry="12" fill="#efb2b3"></ellipse>
+                  <ellipse cx="11" cy="0" rx="7" ry="12" fill="#f5b6b7" transform="rotate(90)"></ellipse>
+                  <ellipse cx="0" cy="11" rx="7" ry="12" fill="#efb2b3"></ellipse>
+                  <ellipse cx="-11" cy="0" rx="7" ry="12" fill="#f5b6b7" transform="rotate(90)"></ellipse>
+                  <circle cx="0" cy="0" r="4" fill="#d6b557"></circle>
+                </g>
+                <g id="flowerBlue">
+                  <circle cx="0" cy="0" r="7" fill="#c9ddf3"></circle>
+                  <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#84b5eb"></ellipse>
+                  <ellipse cx="11" cy="0" rx="7" ry="11" fill="#84b5eb" transform="rotate(90)"></ellipse>
+                  <ellipse cx="0" cy="11" rx="7" ry="11" fill="#84b5eb"></ellipse>
+                  <ellipse cx="-11" cy="0" rx="7" ry="11" fill="#84b5eb" transform="rotate(90)"></ellipse>
+                  <circle cx="0" cy="0" r="4" fill="#f0b35b"></circle>
+                </g>
+                <g id="flowerPurple">
+                  <circle cx="0" cy="0" r="7" fill="#e2d2ef"></circle>
+                  <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#b28ad7"></ellipse>
+                  <ellipse cx="11" cy="0" rx="7" ry="11" fill="#b28ad7" transform="rotate(90)"></ellipse>
+                  <ellipse cx="0" cy="11" rx="7" ry="11" fill="#b28ad7"></ellipse>
+                  <ellipse cx="-11" cy="0" rx="7" ry="11" fill="#b28ad7" transform="rotate(90)"></ellipse>
+                  <circle cx="0" cy="0" r="4" fill="#d6b557"></circle>
+                </g>
+                <g id="flowerYellow">
+                  <circle cx="0" cy="0" r="6" fill="#f5e7a8"></circle>
+                  <ellipse cx="0" cy="-10" rx="7" ry="10" fill="#f1cf69"></ellipse>
+                  <ellipse cx="10" cy="0" rx="7" ry="10" fill="#f1cf69" transform="rotate(90)"></ellipse>
+                  <ellipse cx="0" cy="10" rx="7" ry="10" fill="#f1cf69"></ellipse>
+                  <ellipse cx="-10" cy="0" rx="7" ry="10" fill="#f1cf69" transform="rotate(90)"></ellipse>
+                  <circle cx="0" cy="0" r="3.5" fill="#9d8d47"></circle>
+                </g>
+              </defs>
+              <circle cx="350" cy="350" r="250" fill="none" stroke="#d8ceb4" stroke-width="1.5" stroke-dasharray="2 12"></circle>
+              <g>
+                <use href="#leafPair" transform="translate(140 230) rotate(-52) scale(1.15)"></use>
+                <use href="#leafPair" transform="translate(175 190) rotate(-38) scale(1.1)"></use>
+                <use href="#leafPair" transform="translate(215 155) rotate(-25)"></use>
+                <use href="#leafPair" transform="translate(260 127) rotate(-10)"></use>
+                <use href="#leafPair" transform="translate(315 111) rotate(6)"></use>
+                <use href="#leafPair" transform="translate(372 108) rotate(18)"></use>
+                <use href="#leafPair" transform="translate(428 119) rotate(28)"></use>
+                <use href="#leafPair" transform="translate(482 145) rotate(42)"></use>
+                <use href="#leafPair" transform="translate(524 182) rotate(55)"></use>
+                <use href="#leafPair" transform="translate(555 230) rotate(68)"></use>
+                <use href="#leafPair" transform="translate(570 285) rotate(82)"></use>
+                <use href="#leafPair" transform="translate(575 345) rotate(94)"></use>
+                <use href="#leafPair" transform="translate(566 402) rotate(106)"></use>
+                <use href="#leafPair" transform="translate(544 455) rotate(121)"></use>
+                <use href="#leafPair" transform="translate(508 500) rotate(136)"></use>
+                <use href="#leafPair" transform="translate(462 536) rotate(150)"></use>
+                <use href="#leafPair" transform="translate(410 563) rotate(162)"></use>
+                <use href="#leafPair" transform="translate(353 577) rotate(178)"></use>
+                <use href="#leafPair" transform="translate(294 571) rotate(194)"></use>
+                <use href="#leafPair" transform="translate(243 551) rotate(210)"></use>
+                <use href="#leafPair" transform="translate(196 518) rotate(225)"></use>
+                <use href="#leafPair" transform="translate(160 472) rotate(240)"></use>
+                <use href="#leafPair" transform="translate(135 418) rotate(254)"></use>
+                <use href="#leafPair" transform="translate(123 360) rotate(269)"></use>
+                <use href="#leafPair" transform="translate(126 300) rotate(286)"></use>
+              </g>
+              <g>
+                <use href="#flowerPink" transform="translate(180 194) scale(1.1)"></use>
+                <use href="#flowerYellow" transform="translate(238 145)"></use>
+                <use href="#flowerPurple" transform="translate(334 104)"></use>
+                <use href="#flowerPink" transform="translate(454 136)"></use>
+                <use href="#flowerBlue" transform="translate(530 228)"></use>
+                <use href="#flowerPurple" transform="translate(571 305) scale(.9)"></use>
+                <use href="#flowerYellow" transform="translate(560 440)"></use>
+                <use href="#flowerBlue" transform="translate(503 524)"></use>
+                <use href="#flowerPink" transform="translate(390 578)"></use>
+                <use href="#flowerPurple" transform="translate(270 570)"></use>
+                <use href="#flowerYellow" transform="translate(192 506) scale(.9)"></use>
+                <use href="#flowerBlue" transform="translate(127 405)"></use>
+                <use href="#flowerPink" transform="translate(116 290)"></use>
+                <use href="#flowerYellow" transform="translate(145 227) scale(.9)"></use>
+              </g>
+            </svg>
+            <div class="wreath-center">
+              <h1 id="titolo-home">Carmela &amp; Luigi</h1>
+              <p class="sub">Annunciano il loro matrimonio</p>
+              <p class="date-script">21 Luglio 2026</p>
+              <p class="sub">Alle ore 10:30 presso</p>
+              <p class="place-script">Cuore Immacolato di Maria</p>
+            </div>
+          </div>
+          <p class="lead">Il sito ora segue la partecipazione: sfondo chiaro, oro delicato, tipografia elegante e un tema floreale ispirato alla corona botanica dell’invito.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contatti" data-route>Apri i dettagli utili</a>
+            <a class="btn btn-secondary" href="#foto" data-route>Guarda e carica le foto</a>
+          </div>
+          <div class="quick-links">
+            <span class="pill">Cuore Immacolato di Maria</span>
+            <span class="pill">Giardino del Mago</span>
+            <span class="pill">Tema floreale</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="container cards-grid">
+          <article class="card">
+            <h3>Palette</h3>
+            <p class="meta">Avorio, verde salvia e oro tenue.</p>
+            <p>La partecipazione mostra uno sfondo chiarissimo, testo dorato e piccoli accenti floreali rosa, lilla, azzurri e gialli; il sito è stato riallineato a questa impostazione visiva.</p>
+          </article>
+          <article class="card">
+            <h3>Tipografia</h3>
+            <p class="meta">Script elegante e maiuscole classiche.</p>
+            <p>La gerarchia riprende l’invito: nomi in calligrafico, testi solenni in maiuscoletto e informazioni secondarie più sobrie.</p>
+          </article>
+          <article class="card">
+            <h3>Atmosfera</h3>
+            <p class="meta">Romantica e floreale.</p>
+            <p>La corona botanica è stata reinterpretata come elemento centrale della home per far sembrare il sito coerente con la partecipazione.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="container details-grid">
+          <div>
+            <h2>Programma della giornata</h2>
+            <div class="timeline">
+              <div class="item"><strong>Data:</strong> 21 luglio 2026</div>
+              <div class="item"><strong>Cerimonia:</strong> Cuore Immacolato di Maria, Barletta</div>
+              <div class="item"><strong>Ricevimento:</strong> Giardino del Mago, Canosa di Puglia</div>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Dettagli da completare</h2>
+            <ul class="list-clean">
+              <li>Aggiungi le foto reali della chiesa e della location per rendere il sito ancora più vicino alla partecipazione.</li>
+              <li>Inserisci numeri telefono, conferma presenza e indirizzi finali.</li>
+              <li>Possiamo anche trasformare la home in una versione ancora più simile all’invito, quasi da “partecipazione digitale”.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contatti" aria-labelledby="titolo-contatti">
+      <div class="container section-block">
+        <div class="contacts-grid">
+          <div>
+            <span class="eyebrow">Contatti e regali</span>
+            <h2 id="titolo-contatti">Informazioni per gli invitati</h2>
+            <p class="lead" style="text-align:left;margin:0">La stessa estetica floreale continua anche qui, con toni delicati e pannelli chiari.</p>
+            <div class="floral-divider"><span>❦</span></div>
+            <div class="panel">
+              <h3>Contatti degli sposi</h3>
+              <ul class="list-clean">
+                <li><strong>Carmela:</strong> +39 XXX XXX XXXX</li>
+                <li><strong>Luigi:</strong> +39 XXX XXX XXXX</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="panel">
+              <h3>IBAN</h3>
+              <ul class="list-clean">
+                <li><strong>Regalo sposi:</strong> IT00X0000000000000000000000</li>
+                <li><strong>Lista nozze:</strong> IT00X0000000000000000000000</li>
+              </ul>
+            </div>
+            <div class="panel map-links" style="margin-top:1rem">
+              <h3>Google Maps</h3>
+              <a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&query=Cuore+Immacolato+di+Maria+Barletta">Apri la mappa della chiesa</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&query=Giardino+del+Mago+Canosa+di+Puglia">Apri la mappa del ricevimento</a>
+            </div>
+            <div class="notice" style="margin-top:1rem">Per gli indirizzi è meglio usare i link Maps diretti, così gli invitati non sbagliano destinazione.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="foto" aria-labelledby="titolo-foto">
+      <div class="container section-block">
+        <div class="gallery-layout">
+          <div>
+            <span class="eyebrow">Album condiviso</span>
+            <h2 id="titolo-foto">Carica le foto del matrimonio</h2>
+            <p class="lead" style="text-align:left;margin:0">Il caricamento resta impostato con Cloudinary su piano gratuito, una soluzione pratica ed economica per un sito statico ospitato su GitHub Pages.</p>
+            <div class="panel" style="margin-top:1.5rem">
+              <h3>Caricamento</h3>
+              <form id="upload-form">
+                <label>
+                  Nome di chi carica
+                  <input id="guestName" name="guestName" type="text" placeholder="Es. Zia Anna" required>
+                </label>
+                <button type="button" class="btn btn-primary" id="uploadBtn">Carica foto</button>
+              </form>
+              <p class="helper">Per attivare il caricamento reale, inserisci il tuo <code>cloudName</code> e l’<code>uploadPreset</code> unsigned di Cloudinary.</p>
+            </div>
+            <div class="panel" style="margin-top:1rem">
+              <h3>Perché questa scelta</h3>
+              <ul class="list-clean">
+                <li>GitHub Pages ospita gratis il sito statico.</li>
+                <li>Cloudinary consente upload immagini senza costruire un backend.</li>
+                <li>La galleria e lo slideshow restano semplici da gestire.</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="panel slideshow">
+              <h3>Slideshow</h3>
+              <div id="slideshowWrap"></div>
+              <div class="slide-controls" style="margin-top:1rem">
+                <button type="button" id="prevSlide">Indietro</button>
+                <button type="button" id="nextSlide">Avanti</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:1.5rem">
+          <h3>Foto condivise</h3>
+          <div id="galleryGrid" class="gallery-grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Carmela & Luigi — tema floreale ispirato alla partecipazione.</p>
+    </div>
+  </footer>
+
+  <script src="https://upload-widget.cloudinary.com/latest/global/all.js"></script>
+  <script>
+    const routes = Array.from(document.querySelectorAll('main section'));
+    const routeLinks = document.querySelectorAll('[data-route]');
+    function showRoute(hash){
+      const target = hash && document.querySelector(hash) ? hash : '#home';
+      routes.forEach(section => section.classList.toggle('active', '#' + section.id === target));
+      routeLinks.forEach(link => link.setAttribute('aria-current', link.getAttribute('href') === target ? 'page' : 'false'));
+    }
+    window.addEventListener('hashchange', () => showRoute(location.hash));
+    showRoute(location.hash);
+
+    const themeToggle = document.querySelector('[data-theme-toggle]');
+    let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    function updateThemeIcon(){ themeToggle.textContent = theme === 'dark' ? '☀' : '☾'; }
+    updateThemeIcon();
+    themeToggle.addEventListener('click', ()=>{ theme = theme === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', theme); updateThemeIcon(); });
+
+    const demoPhotos = [
+      {name:'Famiglia Rossi', url:'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80'},
+      {name:'Marco e Sara', url:'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80'},
+      {name:'Cugina Elena', url:'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80'}
+    ];
+    let galleryItems = [...demoPhotos];
+    let slideIndex = 0;
+    const galleryGrid = document.getElementById('galleryGrid');
+    const slideshowWrap = document.getElementById('slideshowWrap');
+    function renderGallery(){
+      galleryGrid.innerHTML = galleryItems.map(item => `
+        <article class="gallery-item">
+          <img src="${item.url}" alt="Foto caricata da ${item.name}" width="1200" height="1200" loading="lazy">
+          <div class="caption"><strong>${item.name}</strong><div class="helper">Foto condivisa</div></div>
+        </article>`).join('');
+      renderSlideshow();
+    }
+    function renderSlideshow(){
+      if(!galleryItems.length){ slideshowWrap.innerHTML = '<div class="notice">Nessuna foto disponibile.</div>'; return; }
+      slideIndex = (slideIndex + galleryItems.length) % galleryItems.length;
+      slideshowWrap.innerHTML = galleryItems.map((item, index) => `
+        <div class="slide ${index === slideIndex ? 'active' : ''}">
+          <img src="${item.url}" alt="Foto slideshow caricata da ${item.name}" width="1200" height="1500" loading="lazy">
+          <div class="slide-meta"><strong>${item.name}</strong><span>${index + 1} / ${galleryItems.length}</span></div>
+        </div>`).join('');
+    }
+    document.getElementById('prevSlide').addEventListener('click', ()=>{ slideIndex--; renderSlideshow(); });
+    document.getElementById('nextSlide').addEventListener('click', ()=>{ slideIndex++; renderSlideshow(); });
+    setInterval(()=>{ if(location.hash === '#foto' || !location.hash){ slideIndex++; renderSlideshow(); } }, 5000);
+    const cloudinaryConfig = { cloudName: 'INSERISCI_CLOUD_NAME', uploadPreset: 'INSERISCI_UPLOAD_PRESET_UNSIGNED', folder: 'matrimonio-carmela-luigi' };
+    document.getElementById('uploadBtn').addEventListener('click', () => {
+      const guestName = document.getElementById('guestName').value.trim();
+      if(!guestName){ alert('Inserisci prima il nome di chi carica la foto.'); return; }
+      if (cloudinaryConfig.cloudName.startsWith('INSERISCI_')) {
+        alert('Modalità demo: per attivare il caricamento reale, inserisci cloudName e uploadPreset Cloudinary nel codice.');
+        galleryItems.unshift({ name: guestName + ' (demo)', url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1200&q=80' });
+        slideIndex = 0; renderGallery(); return;
+      }
+      const widget = cloudinary.createUploadWidget({ cloudName: cloudinaryConfig.cloudName, uploadPreset: cloudinaryConfig.uploadPreset, folder: cloudinaryConfig.folder, multiple: false, sources: ['local','camera'], clientAllowedFormats: ['images'], resourceType: 'image', maxImageFileSize: 10000000, context: { guest: guestName } }, (error, result) => {
+        if (!error && result && result.event === 'success') { galleryItems.unshift({ name: guestName, url: result.info.secure_url }); slideIndex = 0; renderGallery(); }
+      });
+      widget.open();
+    });
+    renderGallery();
+  </script>
+</body>
+</html>
