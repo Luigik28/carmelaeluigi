@@ -24,6 +24,7 @@
       --radius-sm:.5rem;--radius-md:1rem;--radius-lg:1.5rem;--radius-xl:2rem;--radius-full:9999px;
       --font-script:'Allura', cursive;--font-display:'Cormorant Garamond', serif;--font-smallcaps:'Cinzel', serif;--font-body:'Manrope', sans-serif;
       --content:1180px;
+      --header-h:82px;
     }
     [data-theme="dark"]{
       --color-bg:#1f211b;--color-surface:#282b23;--color-surface-2:#30342b;--color-border:#424639;--color-divider:#3b3f35;
@@ -51,7 +52,7 @@
     nav a,.theme-toggle{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:var(--radius-full)}
     nav a:hover,.theme-toggle:hover{background:var(--color-surface-2)}
     .theme-toggle{border:1px solid var(--color-border);background:var(--color-surface)}
-    main section{display:block}
+    main section{display:block;scroll-margin-top:var(--header-h)}
     .hero{padding:clamp(3rem,8vw,6rem) 0 1rem}
     .hero-inner{max-width:1180px;margin:0 auto;text-align:center}
     .eyebrow,.smallcaps{font-family:var(--font-smallcaps);letter-spacing:.11em;text-transform:uppercase}
