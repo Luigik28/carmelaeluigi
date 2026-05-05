@@ -69,10 +69,38 @@
     .btn-secondary{background:var(--color-surface);border-color:var(--color-border)}
     .wreath-wrap{margin:1.8rem auto 1.5rem;max-width:680px;position:relative}
     .wreath{width:min(100%,680px);margin:0 auto}
-    .wreath-center{position:absolute;inset:18% 16%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
-    .wreath-center .sub{font-family:var(--font-smallcaps);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text);font-size:var(--text-sm)}
-    .wreath-center .date-script{font-family:var(--font-script);font-size:clamp(2.6rem,5vw,4.5rem);color:var(--color-primary);line-height:1.05;margin:.8rem 0 .5rem}
-    .wreath-center .place-script{font-family:var(--font-script);font-size:clamp(1.8rem,3.6vw,3rem);color:var(--color-primary);line-height:1.1;margin-top:.7rem}
+    /* container query: il testo scala rispetto allo spazio reale della ghirlanda */
+    .wreath-center{
+      position:absolute;inset:18% 16%;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;pointer-events:none;
+      container-type:size;
+    }
+    /* h1 dentro wreath-center scala su cqi (larghezza del container) */
+    .wreath-center h1{
+      font-family:var(--font-script);
+      font-size:clamp(1.4rem, 14cqi, 4.5rem);
+      color:var(--color-primary);font-weight:400;
+      margin:.2rem 0 .4rem;
+      line-height:1.1;
+    }
+    .wreath-center .sub{
+      font-family:var(--font-smallcaps);letter-spacing:.08em;text-transform:uppercase;
+      color:var(--color-text);
+      font-size:clamp(.6rem, 4cqi, 1rem);
+    }
+    .wreath-center .date-script{
+      font-family:var(--font-script);
+      font-size:clamp(1rem, 10cqi, 3.2rem);
+      color:var(--color-primary);line-height:1.05;
+      margin:.3rem 0 .2rem;
+    }
+    .wreath-center .place-script{
+      font-family:var(--font-script);
+      font-size:clamp(.9rem, 7.5cqi, 2.4rem);
+      color:var(--color-primary);line-height:1.1;
+      margin-top:.3rem;
+    }
     .section-block{padding:clamp(2rem,5vw,4rem) 0}
     .cards-grid,.details-grid,.contacts-grid,.gallery-layout{display:grid;gap:var(--space-8)}
     .cards-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -236,7 +264,7 @@
               <p class="place-script">Cuore Immacolato di Maria</p>
             </div>
           </div>
-          <p class="lead">Il sito ora segue la partecipazione: sfondo chiaro, oro delicato, tipografia elegante e un tema floreale ispirato alla corona botanica dell’invito.</p>
+          <p class="lead">Il sito ora segue la partecipazione: sfondo chiaro, oro delicato, tipografia elegante e un tema floreale ispirato alla corona botanica dell'invito.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#contatti">Apri i dettagli utili</a>
           </div>
@@ -258,7 +286,7 @@
           <article class="card">
             <h3>Tipografia</h3>
             <p class="meta">Script elegante e maiuscole classiche.</p>
-            <p>La gerarchia riprende l’invito: nomi in calligrafico, testi solenni in maiuscoletto e informazioni secondarie più sobrie.</p>
+            <p>La gerarchia riprende l'invito: nomi in calligrafico, testi solenni in maiuscoletto e informazioni secondarie più sobrie.</p>
           </article>
           <article class="card">
             <h3>Atmosfera</h3>
@@ -283,7 +311,7 @@
             <ul class="list-clean">
               <li>Aggiungi le foto reali della chiesa e della location per rendere il sito ancora più vicino alla partecipazione.</li>
               <li>Inserisci numeri telefono, conferma presenza e indirizzi finali.</li>
-              <li>Possiamo anche trasformare la home in una versione ancora più simile all’invito, quasi da “partecipazione digitale”.</li>
+              <li>Possiamo anche trasformare la home in una versione ancora più simile all'invito, quasi da "partecipazione digitale".</li>
             </ul>
           </div>
         </div>
