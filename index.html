@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carmela & Luigi — 21 luglio 2026</title>
+  <title>Carmela &amp; Luigi — 21 luglio 2026</title>
   <meta name="description" content="Sito matrimonio floreale di Carmela e Luigi." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,19 +71,36 @@
     .btn-primary{background:var(--color-primary);color:var(--color-text-inverse)}
     .btn-primary:hover{background:var(--color-primary-hover)}
     .btn-secondary{background:var(--color-surface);border-color:var(--color-border)}
-    /* corona a piena larghezza del container */
-    .wreath-wrap{margin:1.8rem auto 1.5rem;max-width:100%;position:relative}
-    .wreath{width:clamp(280px,90vw,600px);height:auto;margin:0 auto;display:block}
-    /* container query: il testo scala rispetto allo spazio reale della ghirlanda */
+
+    /* ── wreath: grid stack ─────────────────────────────────────────
+       Entrambi i figli occupano la stessa cella 1/1.
+       Il testo detta l'altezza; l'immagine si allunga di conseguenza.
+    ─────────────────────────────────────────────────────────────── */
+    .wreath-wrap{
+      display:grid;
+      place-items:center;
+      width:clamp(280px,90vw,620px);
+      margin:1.8rem auto 1.5rem;
+    }
+    .wreath-wrap > *{
+      grid-area:1/1;
+    }
+    .wreath{
+      width:100%;
+      height:100%;
+      object-fit:fill; /* si allunga per coprire tutta la cella */
+    }
     .wreath-center{
-      position:absolute;inset:16% 14%;
+      /* padding verticale = margine interno dalla corona */
+      padding:16% 14%;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
-      text-align:center;pointer-events:none;
-      container-type:size;
+      text-align:center;
+      width:100%;
+      z-index:1;
     }
     .wreath-center h1{
       font-family:var(--font-script);
-      font-size:clamp(1.6rem, 15cqi, 5rem);
+      font-size:clamp(1.8rem,8vw,4.5rem);
       color:var(--color-primary);font-weight:400;
       margin:.2rem 0 .4rem;
       line-height:1.1;
@@ -92,19 +109,19 @@
     .wreath-center .sub{
       font-family:var(--font-smallcaps);letter-spacing:.08em;text-transform:uppercase;
       color:var(--color-text);
-      font-size:clamp(.6rem, 4cqi, 1rem);
+      font-size:clamp(.65rem,2vw,.95rem);
       text-shadow:var(--text-outline);
     }
     .wreath-center .date-script{
       font-family:var(--font-script);
-      font-size:clamp(1.1rem, 11cqi, 3.5rem);
+      font-size:clamp(1.3rem,6vw,3.2rem);
       color:var(--color-primary);line-height:1.05;
       margin:.3rem 0 .2rem;
       text-shadow:var(--text-outline);
     }
     .wreath-center .place-script{
       font-family:var(--font-script);
-      font-size:clamp(1rem, 8cqi, 2.6rem);
+      font-size:clamp(1.1rem,5vw,2.6rem);
       color:var(--color-primary);line-height:1.1;
       margin-top:.3rem;
       text-shadow:var(--text-outline);
@@ -148,7 +165,7 @@
       <div class="brand">
         <img class="wreath-heart" src="wreath-heart.png" alt="Cuore floreale matrimonio" />
         <div class="brand-text">
-          <strong>Carmela & Luigi</strong>
+          <strong>Carmela &amp; Luigi</strong>
         </div>
       </div>
     </div>
@@ -269,7 +286,7 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>Carmela & Luigi — tema floreale ispirato alla partecipazione.</p>
+      <p>Carmela &amp; Luigi — tema floreale ispirato alla partecipazione.</p>
     </div>
   </footer>
 
