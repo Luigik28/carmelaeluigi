@@ -67,19 +67,18 @@
     .btn-primary{background:var(--color-primary);color:var(--color-text-inverse)}
     .btn-primary:hover{background:var(--color-primary-hover)}
     .btn-secondary{background:var(--color-surface);border-color:var(--color-border)}
-    .wreath-wrap{margin:1.8rem auto 1.5rem;max-width:680px;position:relative}
-    .wreath{width:min(100%,680px);margin:0 auto}
+    .wreath-wrap{margin:1.8rem auto 1.5rem;max-width:1100px;position:relative}
+    .wreath{width:min(100%,1100px);margin:0 auto}
     /* container query: il testo scala rispetto allo spazio reale della ghirlanda */
     .wreath-center{
-      position:absolute;inset:18% 16%;
+      position:absolute;inset:16% 14%;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
       text-align:center;pointer-events:none;
       container-type:size;
     }
-    /* h1 dentro wreath-center scala su cqi (larghezza del container) */
     .wreath-center h1{
       font-family:var(--font-script);
-      font-size:clamp(1.4rem, 14cqi, 4.5rem);
+      font-size:clamp(1.6rem, 15cqi, 5rem);
       color:var(--color-primary);font-weight:400;
       margin:.2rem 0 .4rem;
       line-height:1.1;
@@ -91,13 +90,13 @@
     }
     .wreath-center .date-script{
       font-family:var(--font-script);
-      font-size:clamp(1rem, 10cqi, 3.2rem);
+      font-size:clamp(1.1rem, 11cqi, 3.5rem);
       color:var(--color-primary);line-height:1.05;
       margin:.3rem 0 .2rem;
     }
     .wreath-center .place-script{
       font-family:var(--font-script);
-      font-size:clamp(.9rem, 7.5cqi, 2.4rem);
+      font-size:clamp(1rem, 8cqi, 2.6rem);
       color:var(--color-primary);line-height:1.1;
       margin-top:.3rem;
     }
