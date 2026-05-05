@@ -41,7 +41,7 @@
     .skip-link{position:absolute;left:-9999px}.skip-link:focus{left:1rem;top:1rem;background:var(--color-surface);padding:.75rem 1rem;border-radius:var(--radius-sm);z-index:1000}
     .container{width:min(calc(100% - 2rem),var(--content));margin-inline:auto}
     .site-header{position:sticky;top:0;z-index:100;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-divider)}
-    .header-inner{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);padding:var(--space-4) 0}
+    .header-inner{display:flex;justify-content:center;align-items:center;gap:var(--space-4);padding:var(--space-4) 0}
     .brand{display:flex;align-items:center;gap:var(--space-3)}
     .logo{width:50px;height:50px;color:var(--color-primary)}
     .brand-text strong{display:block;font-family:var(--font-script);font-size:2rem;line-height:1;color:var(--color-primary)}
@@ -50,8 +50,7 @@
     nav a,.theme-toggle{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:var(--radius-full)}
     nav a:hover,.theme-toggle:hover{background:var(--color-surface-2)}
     .theme-toggle{border:1px solid var(--color-border);background:var(--color-surface)}
-    main section{display:none}
-    main section.active{display:block}
+    main section{display:block}
     .hero{padding:clamp(3rem,8vw,6rem) 0 1rem}
     .hero-inner{max-width:920px;margin:0 auto;text-align:center}
     .eyebrow,.smallcaps{font-family:var(--font-smallcaps);letter-spacing:.11em;text-transform:uppercase}
@@ -104,12 +103,15 @@
     .slide-meta{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-top:1rem;color:var(--color-text-muted)}
     .slide-controls button{min-height:44px;padding:.8rem 1rem;border-radius:var(--radius-full);border:1px solid var(--color-border);background:var(--color-surface-2)}
     .pill{display:inline-flex;align-items:center;padding:.55rem .9rem;border-radius:var(--radius-full);background:var(--color-primary-soft);color:var(--color-primary);font-size:var(--text-sm);margin:.25rem}
+    .site-nav{position:fixed;bottom:0;left:0;right:0;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(10px);border-top:1px solid var(--color-divider);padding:1rem 0;z-index:100}
+    .site-nav ul{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;justify-content:center}
+    .site-nav a,.site-nav button{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:var(--radius-full)}
+    .site-nav a:hover,.site-nav button:hover{background:var(--color-surface-2)}
+    main{padding-bottom:calc(44px + 2rem)}
     .site-footer{padding:2rem 0 3rem;color:var(--color-text-muted);text-align:center}
     .floral-divider{display:flex;justify-content:center;margin:1.2rem 0}.floral-divider span{font-size:1.4rem;color:var(--color-primary)}
     @media (max-width:900px){
       .cards-grid,.details-grid,.contacts-grid,.gallery-layout{grid-template-columns:1fr}
-      .header-inner{flex-direction:column;align-items:flex-start}
-      .wreath-center{inset:20% 13%}
       .slideshow{min-height:auto}
     }
   </style>
@@ -132,14 +134,6 @@
           <span>21 luglio 2026</span>
         </div>
       </div>
-      <nav aria-label="Navigazione principale">
-        <ul>
-          <li><a href="#home" data-route>Home</a></li>
-          <li><a href="#contatti" data-route>Contatti</a></li>
-          <li><a href="#foto" data-route>Foto</a></li>
-          <li><button class="theme-toggle" data-theme-toggle aria-label="Cambia tema">☾</button></li>
-        </ul>
-      </nav>
     </div>
   </header>
 
@@ -244,8 +238,7 @@
           </div>
           <p class="lead">Il sito ora segue la partecipazione: sfondo chiaro, oro delicato, tipografia elegante e un tema floreale ispirato alla corona botanica dell’invito.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#contatti" data-route>Apri i dettagli utili</a>
-            <a class="btn btn-secondary" href="#foto" data-route>Guarda e carica le foto</a>
+            <a class="btn btn-primary" href="#contatti">Apri i dettagli utili</a>
           </div>
           <div class="quick-links">
             <span class="pill">Cuore Immacolato di Maria</span>
@@ -378,75 +371,27 @@
     </section>
   </main>
 
+  <nav class="site-nav" aria-label="Navigazione principale">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+      <li><button class="theme-toggle" data-theme-toggle aria-label="Cambia tema">☾</button></li>
+    </ul>
+  </nav>
+
   <footer class="site-footer">
     <div class="container">
       <p>Carmela & Luigi — tema floreale ispirato alla partecipazione.</p>
     </div>
   </footer>
 
-  <script src="https://upload-widget.cloudinary.com/latest/global/all.js"></script>
   <script>
-    const routes = Array.from(document.querySelectorAll('main section'));
-    const routeLinks = document.querySelectorAll('[data-route]');
-    function showRoute(hash){
-      const target = hash && document.querySelector(hash) ? hash : '#home';
-      routes.forEach(section => section.classList.toggle('active', '#' + section.id === target));
-      routeLinks.forEach(link => link.setAttribute('aria-current', link.getAttribute('href') === target ? 'page' : 'false'));
-    }
-    window.addEventListener('hashchange', () => showRoute(location.hash));
-    showRoute(location.hash);
-
     const themeToggle = document.querySelector('[data-theme-toggle]');
     let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', theme);
     function updateThemeIcon(){ themeToggle.textContent = theme === 'dark' ? '☀' : '☾'; }
     updateThemeIcon();
     themeToggle.addEventListener('click', ()=>{ theme = theme === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', theme); updateThemeIcon(); });
-
-    const demoPhotos = [
-      {name:'Famiglia Rossi', url:'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80'},
-      {name:'Marco e Sara', url:'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80'},
-      {name:'Cugina Elena', url:'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80'}
-    ];
-    let galleryItems = [...demoPhotos];
-    let slideIndex = 0;
-    const galleryGrid = document.getElementById('galleryGrid');
-    const slideshowWrap = document.getElementById('slideshowWrap');
-    function renderGallery(){
-      galleryGrid.innerHTML = galleryItems.map(item => `
-        <article class="gallery-item">
-          <img src="${item.url}" alt="Foto caricata da ${item.name}" width="1200" height="1200" loading="lazy">
-          <div class="caption"><strong>${item.name}</strong><div class="helper">Foto condivisa</div></div>
-        </article>`).join('');
-      renderSlideshow();
-    }
-    function renderSlideshow(){
-      if(!galleryItems.length){ slideshowWrap.innerHTML = '<div class="notice">Nessuna foto disponibile.</div>'; return; }
-      slideIndex = (slideIndex + galleryItems.length) % galleryItems.length;
-      slideshowWrap.innerHTML = galleryItems.map((item, index) => `
-        <div class="slide ${index === slideIndex ? 'active' : ''}">
-          <img src="${item.url}" alt="Foto slideshow caricata da ${item.name}" width="1200" height="1500" loading="lazy">
-          <div class="slide-meta"><strong>${item.name}</strong><span>${index + 1} / ${galleryItems.length}</span></div>
-        </div>`).join('');
-    }
-    document.getElementById('prevSlide').addEventListener('click', ()=>{ slideIndex--; renderSlideshow(); });
-    document.getElementById('nextSlide').addEventListener('click', ()=>{ slideIndex++; renderSlideshow(); });
-    setInterval(()=>{ if(location.hash === '#foto' || !location.hash){ slideIndex++; renderSlideshow(); } }, 5000);
-    const cloudinaryConfig = { cloudName: 'INSERISCI_CLOUD_NAME', uploadPreset: 'INSERISCI_UPLOAD_PRESET_UNSIGNED', folder: 'matrimonio-carmela-luigi' };
-    document.getElementById('uploadBtn').addEventListener('click', () => {
-      const guestName = document.getElementById('guestName').value.trim();
-      if(!guestName){ alert('Inserisci prima il nome di chi carica la foto.'); return; }
-      if (cloudinaryConfig.cloudName.startsWith('INSERISCI_')) {
-        alert('Modalità demo: per attivare il caricamento reale, inserisci cloudName e uploadPreset Cloudinary nel codice.');
-        galleryItems.unshift({ name: guestName + ' (demo)', url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1200&q=80' });
-        slideIndex = 0; renderGallery(); return;
-      }
-      const widget = cloudinary.createUploadWidget({ cloudName: cloudinaryConfig.cloudName, uploadPreset: cloudinaryConfig.uploadPreset, folder: cloudinaryConfig.folder, multiple: false, sources: ['local','camera'], clientAllowedFormats: ['images'], resourceType: 'image', maxImageFileSize: 10000000, context: { guest: guestName } }, (error, result) => {
-        if (!error && result && result.event === 'success') { galleryItems.unshift({ name: guestName, url: result.info.secure_url }); slideIndex = 0; renderGallery(); }
-      });
-      widget.open();
-    });
-    renderGallery();
   </script>
 </body>
 </html>
