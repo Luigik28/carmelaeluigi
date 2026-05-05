@@ -325,52 +325,6 @@
       </div>
     </section>
 
-    <section id="foto" aria-labelledby="titolo-foto">
-      <div class="container section-block">
-        <div class="gallery-layout">
-          <div>
-            <span class="eyebrow">Album condiviso</span>
-            <h2 id="titolo-foto">Carica le foto del matrimonio</h2>
-            <p class="lead" style="text-align:left;margin:0">Il caricamento resta impostato con Cloudinary su piano gratuito, una soluzione pratica ed economica per un sito statico ospitato su GitHub Pages.</p>
-            <div class="panel" style="margin-top:1.5rem">
-              <h3>Caricamento</h3>
-              <form id="upload-form">
-                <label>
-                  Nome di chi carica
-                  <input id="guestName" name="guestName" type="text" placeholder="Es. Zia Anna" required>
-                </label>
-                <button type="button" class="btn btn-primary" id="uploadBtn">Carica foto</button>
-              </form>
-              <p class="helper">Per attivare il caricamento reale, inserisci il tuo <code>cloudName</code> e l’<code>uploadPreset</code> unsigned di Cloudinary.</p>
-            </div>
-            <div class="panel" style="margin-top:1rem">
-              <h3>Perché questa scelta</h3>
-              <ul class="list-clean">
-                <li>GitHub Pages ospita gratis il sito statico.</li>
-                <li>Cloudinary consente upload immagini senza costruire un backend.</li>
-                <li>La galleria e lo slideshow restano semplici da gestire.</li>
-              </ul>
-            </div>
-          </div>
-          <div>
-            <div class="panel slideshow">
-              <h3>Slideshow</h3>
-              <div id="slideshowWrap"></div>
-              <div class="slide-controls" style="margin-top:1rem">
-                <button type="button" id="prevSlide">Indietro</button>
-                <button type="button" id="nextSlide">Avanti</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel" style="margin-top:1.5rem">
-          <h3>Foto condivise</h3>
-          <div id="galleryGrid" class="gallery-grid"></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
   <nav class="site-nav" aria-label="Navigazione principale">
     <ul>
       <li><a href="#home">Home</a></li>
