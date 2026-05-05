@@ -103,10 +103,10 @@
       margin-top:.3rem;
     }
     .section-block{padding:clamp(2rem,5vw,4rem) 0}
-    .cards-grid,.details-grid,.contacts-grid,.gallery-layout{display:grid;gap:var(--space-8)}
+    .cards-grid,.details-grid,.contacts-grid{display:grid;gap:var(--space-8)}
     .cards-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
     .details-grid{grid-template-columns:1fr 1fr}
-    .contacts-grid,.gallery-layout{grid-template-columns:.95fr 1.05fr}
+    .contacts-grid{grid-template-columns:.95fr 1.05fr}
     .card,.panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}
     .card,.panel{padding:1.4rem}
     .meta{color:var(--color-text-muted)}
@@ -122,15 +122,6 @@
     input{min-height:48px;padding:.9rem 1rem;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg)}
     .helper{font-size:var(--text-sm);color:var(--color-text-muted)}
     .notice{padding:1rem 1.1rem;border-radius:var(--radius-md);background:var(--color-surface-2);color:var(--color-text-muted)}
-    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1.2rem}
-    .gallery-item{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
-    .gallery-item img{width:100%;aspect-ratio:1/1;object-fit:cover}
-    .gallery-item .caption{padding:.8rem .9rem}
-    .slideshow{min-height:430px;overflow:hidden}
-    .slide{display:none}.slide.active{display:block}
-    .slide img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-lg)}
-    .slide-meta{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-top:1rem;color:var(--color-text-muted)}
-    .slide-controls button{min-height:44px;padding:.8rem 1rem;border-radius:var(--radius-full);border:1px solid var(--color-border);background:var(--color-surface-2)}
     .pill{display:inline-flex;align-items:center;padding:.55rem .9rem;border-radius:var(--radius-full);background:var(--color-primary-soft);color:var(--color-primary);font-size:var(--text-sm);margin:.25rem}
     .site-nav{position:fixed;bottom:0;left:0;right:0;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(10px);border-top:1px solid var(--color-divider);padding:1rem 0;z-index:100}
     .site-nav ul{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;justify-content:center}
@@ -140,20 +131,17 @@
     .site-footer{padding:2rem 0 3rem;color:var(--color-text-muted);text-align:center}
     .floral-divider{display:flex;justify-content:center;margin:1.2rem 0}.floral-divider span{font-size:1.4rem;color:var(--color-primary)}
     @media (max-width:900px){
-      .cards-grid,.details-grid,.contacts-grid,.gallery-layout{grid-template-columns:1fr}
-      .slideshow{min-height:auto}
+      .cards-grid,.details-grid,.contacts-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#contenuto">Vai al contenuto</a>
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
         <img class="wreath-heart" src="wreath-heart.png" alt="Cuore floreale matrimonio" />
         <div class="brand-text">
           <strong>Carmela & Luigi</strong>
-          <span>21 luglio 2026</span>
         </div>
       </div>
     </div>
