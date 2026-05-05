@@ -69,7 +69,7 @@
     .btn-secondary{background:var(--color-surface);border-color:var(--color-border)}
     /* corona a piena larghezza del container */
     .wreath-wrap{margin:1.8rem auto 1.5rem;max-width:100%;position:relative}
-    .wreath{width:100%;margin:0 auto;display:block}
+    .wreath{width:clamp(280px,90vw,600px);height:auto;margin:0 auto;display:block}
     /* container query: il testo scala rispetto allo spazio reale della ghirlanda */
     .wreath-center{
       position:absolute;inset:16% 14%;
@@ -149,14 +149,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
-        <svg class="logo" viewBox="0 0 64 64" aria-label="Logo floreale con cuore" fill="none">
-          <path d="M32 54c-2.7-3.2-5.8-5.8-9.4-8.5C16.2 41.8 11 36.8 11 28.7 11 20.9 16.5 15 24 15c4.1 0 6.6 1.5 8 4.7 1.4-3.2 3.9-4.7 8-4.7 7.5 0 13 5.9 13 13.7 0 8.1-5.2 13.1-11.6 17.8C37.8 49.2 34.7 51.8 32 55Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-          <circle cx="17" cy="23" r="2.2" fill="#8ca06a"></circle>
-          <circle cx="47" cy="22" r="2.2" fill="#d79ab1"></circle>
-          <circle cx="18" cy="39" r="2" fill="#8eb3d8"></circle>
-          <circle cx="45" cy="39" r="2" fill="#d8c26d"></circle>
-          <circle cx="32" cy="12.5" r="2" fill="#b78fd8"></circle>
-        </svg>
+        <img class="wreath-heart" src="wreath-heart.png" alt="Cuore floreale matrimonio" />
         <div class="brand-text">
           <strong>Carmela & Luigi</strong>
           <span>21 luglio 2026</span>
@@ -172,90 +165,7 @@
           <span class="eyebrow">Save the date</span>
           <p class="smallcaps">Ventuno luglio duemilaventisei</p>
           <div class="wreath-wrap">
-            <svg class="wreath" viewBox="0 0 700 700" aria-hidden="true">
-              <defs>
-                <g id="leafPair">
-                  <ellipse cx="0" cy="0" rx="8" ry="22" fill="#8f9c6e" transform="rotate(-25)"></ellipse>
-                  <ellipse cx="12" cy="10" rx="7" ry="18" fill="#a8b387" transform="rotate(18)"></ellipse>
-                </g>
-                <g id="flowerPink">
-                  <circle cx="0" cy="0" r="7" fill="#f8d7d5"></circle>
-                  <ellipse cx="0" cy="-11" rx="7" ry="12" fill="#efb2b3"></ellipse>
-                  <ellipse cx="11" cy="0" rx="7" ry="12" fill="#f5b6b7" transform="rotate(90)"></ellipse>
-                  <ellipse cx="0" cy="11" rx="7" ry="12" fill="#efb2b3"></ellipse>
-                  <ellipse cx="-11" cy="0" rx="7" ry="12" fill="#f5b6b7" transform="rotate(90)"></ellipse>
-                  <circle cx="0" cy="0" r="4" fill="#d6b557"></circle>
-                </g>
-                <g id="flowerBlue">
-                  <circle cx="0" cy="0" r="7" fill="#c9ddf3"></circle>
-                  <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#84b5eb"></ellipse>
-                  <ellipse cx="11" cy="0" rx="7" ry="11" fill="#84b5eb" transform="rotate(90)"></ellipse>
-                  <ellipse cx="0" cy="11" rx="7" ry="11" fill="#84b5eb"></ellipse>
-                  <ellipse cx="-11" cy="0" rx="7" ry="11" fill="#84b5eb" transform="rotate(90)"></ellipse>
-                  <circle cx="0" cy="0" r="4" fill="#f0b35b"></circle>
-                </g>
-                <g id="flowerPurple">
-                  <circle cx="0" cy="0" r="7" fill="#e2d2ef"></circle>
-                  <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#b28ad7"></ellipse>
-                  <ellipse cx="11" cy="0" rx="7" ry="11" fill="#b28ad7" transform="rotate(90)"></ellipse>
-                  <ellipse cx="0" cy="11" rx="7" ry="11" fill="#b28ad7"></ellipse>
-                  <ellipse cx="-11" cy="0" rx="7" ry="11" fill="#b28ad7" transform="rotate(90)"></ellipse>
-                  <circle cx="0" cy="0" r="4" fill="#d6b557"></circle>
-                </g>
-                <g id="flowerYellow">
-                  <circle cx="0" cy="0" r="6" fill="#f5e7a8"></circle>
-                  <ellipse cx="0" cy="-10" rx="7" ry="10" fill="#f1cf69"></ellipse>
-                  <ellipse cx="10" cy="0" rx="7" ry="10" fill="#f1cf69" transform="rotate(90)"></ellipse>
-                  <ellipse cx="0" cy="10" rx="7" ry="10" fill="#f1cf69"></ellipse>
-                  <ellipse cx="-10" cy="0" rx="7" ry="10" fill="#f1cf69" transform="rotate(90)"></ellipse>
-                  <circle cx="0" cy="0" r="3.5" fill="#9d8d47"></circle>
-                </g>
-              </defs>
-              <circle cx="350" cy="350" r="250" fill="none" stroke="#d8ceb4" stroke-width="1.5" stroke-dasharray="2 12"></circle>
-              <g>
-                <use href="#leafPair" transform="translate(140 230) rotate(-52) scale(1.15)"></use>
-                <use href="#leafPair" transform="translate(175 190) rotate(-38) scale(1.1)"></use>
-                <use href="#leafPair" transform="translate(215 155) rotate(-25)"></use>
-                <use href="#leafPair" transform="translate(260 127) rotate(-10)"></use>
-                <use href="#leafPair" transform="translate(315 111) rotate(6)"></use>
-                <use href="#leafPair" transform="translate(372 108) rotate(18)"></use>
-                <use href="#leafPair" transform="translate(428 119) rotate(28)"></use>
-                <use href="#leafPair" transform="translate(482 145) rotate(42)"></use>
-                <use href="#leafPair" transform="translate(524 182) rotate(55)"></use>
-                <use href="#leafPair" transform="translate(555 230) rotate(68)"></use>
-                <use href="#leafPair" transform="translate(570 285) rotate(82)"></use>
-                <use href="#leafPair" transform="translate(575 345) rotate(94)"></use>
-                <use href="#leafPair" transform="translate(566 402) rotate(106)"></use>
-                <use href="#leafPair" transform="translate(544 455) rotate(121)"></use>
-                <use href="#leafPair" transform="translate(508 500) rotate(136)"></use>
-                <use href="#leafPair" transform="translate(462 536) rotate(150)"></use>
-                <use href="#leafPair" transform="translate(410 563) rotate(162)"></use>
-                <use href="#leafPair" transform="translate(353 577) rotate(178)"></use>
-                <use href="#leafPair" transform="translate(294 571) rotate(194)"></use>
-                <use href="#leafPair" transform="translate(243 551) rotate(210)"></use>
-                <use href="#leafPair" transform="translate(196 518) rotate(225)"></use>
-                <use href="#leafPair" transform="translate(160 472) rotate(240)"></use>
-                <use href="#leafPair" transform="translate(135 418) rotate(254)"></use>
-                <use href="#leafPair" transform="translate(123 360) rotate(269)"></use>
-                <use href="#leafPair" transform="translate(126 300) rotate(286)"></use>
-              </g>
-              <g>
-                <use href="#flowerPink" transform="translate(180 194) scale(1.1)"></use>
-                <use href="#flowerYellow" transform="translate(238 145)"></use>
-                <use href="#flowerPurple" transform="translate(334 104)"></use>
-                <use href="#flowerPink" transform="translate(454 136)"></use>
-                <use href="#flowerBlue" transform="translate(530 228)"></use>
-                <use href="#flowerPurple" transform="translate(571 305) scale(.9)"></use>
-                <use href="#flowerYellow" transform="translate(560 440)"></use>
-                <use href="#flowerBlue" transform="translate(503 524)"></use>
-                <use href="#flowerPink" transform="translate(390 578)"></use>
-                <use href="#flowerPurple" transform="translate(270 570)"></use>
-                <use href="#flowerYellow" transform="translate(192 506) scale(.9)"></use>
-                <use href="#flowerBlue" transform="translate(127 405)"></use>
-                <use href="#flowerPink" transform="translate(116 290)"></use>
-                <use href="#flowerYellow" transform="translate(145 227) scale(.9)"></use>
-              </g>
-            </svg>
+            <img class="wreath" src="wreath.png" alt="Corona floreale matrimonio" />
             <div class="wreath-center">
               <h1 id="titolo-home">Carmela &amp; Luigi</h1>
               <p class="sub">Annunciano il loro matrimonio</p>
