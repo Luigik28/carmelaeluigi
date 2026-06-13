@@ -159,6 +159,8 @@
     .copy-btn:hover{opacity:1;transform:scale(1.15)}
     .copy-btn.copied{animation:copyPulse .6s ease-out}
     @keyframes copyPulse{0%{transform:scale(1.3);opacity:1}100%{transform:scale(1);opacity:.7}}
+    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(150px);background:var(--color-primary);color:var(--color-text-inverse);padding:.9rem 1.5rem;border-radius:var(--radius-full);box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;z-index:1000;font-weight:500;font-size:var(--text-sm)}
+    .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
     @media (max-width:900px){
       .cards-grid,.details-grid,.contacts-grid{grid-template-columns:1fr}
     }
@@ -246,8 +248,8 @@
           <div class="panel">
             <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:.75rem;line-height:1.6"><em>La cosa più bella per noi è avervi accanto in questo giorno speciale. Se desiderate farci un regalo, ecco i nostri dati.</em></p>
             <ul class="list-clean">
-              <li style="display:flex;justify-content:space-between;align-items:center"><span><strong>IBAN:</strong> IT00X0000000000000000000000</span><button class="copy-btn" onclick="copyToClipboard('IT00X0000000000000000000000', this)" title="Copia IBAN" aria-label="Copia IBAN">📋</button></li>
-              <li style="display:flex;justify-content:space-between;align-items:center"><span><strong>Beneficiario:</strong> Luigi Filannino</span><button class="copy-btn" onclick="copyToClipboard('Luigi Filannino', this)" title="Copia nome" aria-label="Copia beneficiario">📋</button></li>
+              <li style="display:flex;justify-content:space-between;align-items:center"><span><strong>IBAN:</strong> IT00X0000000000000000000000</span><button class="copy-btn" onclick="copyToClipboard('IT00X0000000000000000000000', 'IBAN', this)" title="Copia IBAN" aria-label="Copia IBAN">📋</button></li>
+              <li style="display:flex;justify-content:space-between;align-items:center"><span><strong>Beneficiario:</strong> Luigi Filannino</span><button class="copy-btn" onclick="copyToClipboard('Luigi Filannino', 'Beneficiario', this)" title="Copia nome" aria-label="Copia beneficiario">📋</button></li>
             </ul>
           </div>
         </div>
@@ -269,6 +271,8 @@
     </div>
   </footer>
 
+  <div id="toast" class="toast"></div>
+
   <script>
     const themeToggle = document.querySelector('[data-theme-toggle]');
     let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -277,9 +281,17 @@
     updateThemeIcon();
     themeToggle.addEventListener('click', ()=>{ theme = theme === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', theme); updateThemeIcon(); });
 
-    function copyToClipboard(text, btn) {
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    function copyToClipboard(text, label, btn) {
       navigator.clipboard.writeText(text).then(() => {
         btn.classList.add('copied');
+        showToast(label + ' copiato');
         setTimeout(() => btn.classList.remove('copied'), 600);
       }).catch(() => alert('Errore nella copia'));
     }
