@@ -1,0 +1,73 @@
+/* ── Variabili e tema ──────────────────────────────────────────────────── */
+:root,[data-theme="light"]{
+  --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+  --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+  --text-base:clamp(1rem,.95rem + .25vw,1.06rem);
+  --text-lg:clamp(1.125rem,1rem + .75vw,1.45rem);
+  --text-xl:clamp(1.55rem,1.2rem + 1.25vw,2.3rem);
+  --text-2xl:clamp(2.2rem,1.2rem + 2.8vw,4rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--space-20:5rem;
+  --color-bg:#f8f7f3;--color-surface:#fffdfa;--color-surface-2:#f5f1e9;--color-border:#e5dece;--color-divider:#ede6d9;
+  --color-text:#66674e;--color-text-muted:#7f8062;--color-text-faint:#a3a38c;--color-text-inverse:#fffdfa;
+  --color-primary:#c7a341;--color-primary-hover:#ae8c32;--color-primary-soft:#f3ecd5;--color-accent:#87916a;
+  --shadow-sm:0 12px 28px rgba(143,132,92,.08);--shadow-lg:0 24px 60px rgba(143,132,92,.14);
+  --radius-sm:.5rem;--radius-md:1rem;--radius-lg:1.5rem;--radius-xl:2rem;--radius-full:9999px;
+  --font-script:'Allura',cursive;--font-display:'Cormorant Garamond',serif;--font-smallcaps:'Cinzel',serif;--font-body:'Manrope',sans-serif;
+  --content:1180px;--header-h:82px;
+  --text-outline:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff;
+}
+[data-theme="dark"]{
+  --color-bg:#1f211b;--color-surface:#282b23;--color-surface-2:#30342b;--color-border:#424639;--color-divider:#3b3f35;
+  --color-text:#ece8d9;--color-text-muted:#d4cfbc;--color-text-faint:#a7a28f;--color-text-inverse:#1f211b;
+  --color-primary:#e0c36d;--color-primary-hover:#f0d58b;--color-primary-soft:#393729;--color-accent:#aab38e;
+  --shadow-sm:0 12px 28px rgba(0,0,0,.24);--shadow-lg:0 24px 60px rgba(0,0,0,.36);
+  --text-outline:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.7;background:var(--color-bg);color:var(--color-text)}
+img,svg,video{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px}
+
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+.container{width:min(calc(100% - 2rem),var(--content));margin-inline:auto}
+main{padding-bottom:calc(44px + 3rem)}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.site-header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--color-bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-divider)}
+.header-inner{display:flex;justify-content:center;align-items:center;gap:1rem;padding:1rem 0}
+.brand{display:flex;align-items:center;gap:.75rem}
+.wreath-heart{width:auto;height:50px;object-fit:contain;flex-shrink:0}
+.brand-text strong{display:block;font-family:var(--font-script);font-size:2rem;line-height:1;color:var(--color-primary)}
+.brand-text span{font-family:var(--font-smallcaps);font-size:var(--text-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--color-text-muted)}
+
+/* ── Tipografia condivisa ────────────────────────────────────────────────── */
+.eyebrow{display:block;font-family:var(--font-smallcaps);letter-spacing:.11em;text-transform:uppercase;color:var(--color-primary);font-size:var(--text-sm);margin-bottom:1.5rem;text-align:center;padding-bottom:1rem;border-bottom:1px solid var(--color-divider)}
+h1,h2,h3{font-family:var(--font-display);line-height:1.08;font-weight:500}
+h2{font-size:var(--text-xl);margin-bottom:1rem;color:var(--color-text)}
+h3{font-size:1.6rem;margin-bottom:.75rem;color:var(--color-text)}
+
+/* ── Bottoni ─────────────────────────────────────────────────────────────── */
+.btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center;padding:.9rem 1.25rem;border-radius:var(--radius-full);border:1px solid transparent;font-weight:600}
+.btn-primary{background:var(--color-primary);color:var(--color-text-inverse)}
+.btn-primary:hover{background:var(--color-primary-hover)}
+
+/* ── Navigazione inferiore ───────────────────────────────────────────────── */
+.site-nav{position:fixed;bottom:0;left:0;right:0;background:color-mix(in srgb,var(--color-bg) 88%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--color-divider);padding:.85rem 0;z-index:100}
+.site-nav ul{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;justify-content:center}
+.site-nav a,.site-nav button{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:.65rem 1rem;border-radius:var(--radius-full);background:none;border:none;color:var(--color-text)}
+.site-nav a:hover,.site-nav button:hover{background:var(--color-surface-2)}
+.site-nav a.active{color:var(--color-primary);font-weight:700}
+.theme-toggle{border:1px solid var(--color-border)!important;background:var(--color-surface)!important}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.site-footer{padding:1.5rem 0 3rem;color:var(--color-text-faint);text-align:center;font-size:var(--text-sm)}
+
+/* ── Toast ───────────────────────────────────────────────────────────────── */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(150px);background:var(--color-primary);color:var(--color-text-inverse);padding:.9rem 1.5rem;border-radius:var(--radius-full);box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;z-index:1000;font-weight:500;font-size:var(--text-sm)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}

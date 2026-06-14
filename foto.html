@@ -1,69 +1,25 @@
 <!DOCTYPE html>
-<html lang="it" data-theme="light">
+<html lang="it">
 <head>
   <meta charset="UTF-8" />
+  <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Foto &amp; Video — Carmela &amp; Luigi</title>
   <meta name="description" content="Condividi i tuoi scatti del matrimonio di Carmela e Luigi." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
   <style>
-    :root,[data-theme="light"]{
-      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
-      --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
-      --text-base:clamp(1rem,.95rem + .25vw,1.06rem);
-      --text-lg:clamp(1.125rem,1rem + .75vw,1.45rem);
-      --text-xl:clamp(1.55rem,1.2rem + 1.25vw,2.3rem);
-      --color-bg:#f8f7f3;--color-surface:#fffdfa;--color-surface-2:#f5f1e9;--color-border:#e5dece;--color-divider:#ede6d9;
-      --color-text:#66674e;--color-text-muted:#7f8062;--color-text-faint:#a3a38c;--color-text-inverse:#fffdfa;
-      --color-primary:#c7a341;--color-primary-hover:#ae8c32;--color-primary-soft:#f3ecd5;
-      --shadow-sm:0 12px 28px rgba(143,132,92,.08);
-      --radius-sm:.5rem;--radius-md:1rem;--radius-lg:1.5rem;--radius-xl:2rem;--radius-full:9999px;
-      --font-script:'Allura',cursive;--font-display:'Cormorant Garamond',serif;--font-smallcaps:'Cinzel',serif;--font-body:'Manrope',sans-serif;
-      --content:1180px;--header-h:82px;
-    }
-    [data-theme="dark"]{
-      --color-bg:#1f211b;--color-surface:#282b23;--color-surface-2:#30342b;--color-border:#424639;--color-divider:#3b3f35;
-      --color-text:#ece8d9;--color-text-muted:#d4cfbc;--color-text-faint:#a7a28f;--color-text-inverse:#1f211b;
-      --color-primary:#e0c36d;--color-primary-hover:#f0d58b;--color-primary-soft:#393729;
-      --shadow-sm:0 12px 28px rgba(0,0,0,.24);
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.7;background:var(--color-bg);color:var(--color-text)}
-    img,video{display:block;max-width:100%;height:auto}
-    a{color:inherit;text-decoration:none}
-    button{font:inherit;cursor:pointer}
-    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px}
-    .container{width:min(calc(100% - 2rem),var(--content));margin-inline:auto}
+    h2{text-align:center;margin-bottom:1.25rem}
 
-    /* ── Header ── */
-    .site-header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--color-bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-divider)}
-    .header-inner{display:flex;justify-content:center;align-items:center;padding:1rem 0}
-    .brand{display:flex;align-items:center;gap:.75rem}
-    .wreath-heart{height:50px;width:auto;object-fit:contain;flex-shrink:0}
-    .brand-text strong{display:block;font-family:var(--font-script);font-size:2rem;line-height:1;color:var(--color-primary)}
-
-    /* ── Typography ── */
-    .eyebrow{display:block;font-family:var(--font-smallcaps);letter-spacing:.11em;text-transform:uppercase;color:var(--color-primary);font-size:var(--text-sm);margin-bottom:1.5rem;text-align:center;padding-bottom:1rem;border-bottom:1px solid var(--color-divider)}
-    h2{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:1.25rem;color:var(--color-text);font-weight:500;text-align:center}
-
-    /* ── Upload card ── */
+    /* ── Upload ── */
     .upload-section{padding:clamp(2rem,5vw,3rem) 0 1.5rem}
     .upload-card{background:var(--color-surface);border:2px dashed var(--color-border);border-radius:var(--radius-xl);padding:2.5rem 1.5rem;text-align:center;transition:border-color .2s,background .2s}
     .upload-card.dragover{border-color:var(--color-primary);background:var(--color-primary-soft)}
     .upload-icon{font-size:2.8rem;margin-bottom:.6rem}
     .upload-hint{font-size:var(--text-sm);color:var(--color-text-faint);margin-top:.9rem}
-    .upload-label{
-      display:inline-flex;align-items:center;gap:.6rem;
-      min-height:56px;padding:1rem 2.2rem;margin-top:.75rem;
-      border-radius:var(--radius-full);
-      background:var(--color-primary);color:var(--color-text-inverse);
-      font-weight:700;font-size:var(--text-lg);
-      cursor:pointer;transition:background .2s;
-      -webkit-tap-highlight-color:transparent;
-    }
+    .upload-label{display:inline-flex;align-items:center;gap:.6rem;min-height:56px;padding:1rem 2.2rem;margin-top:.75rem;border-radius:var(--radius-full);background:var(--color-primary);color:var(--color-text-inverse);font-weight:700;font-size:var(--text-lg);cursor:pointer;transition:background .2s;-webkit-tap-highlight-color:transparent}
     .upload-label:hover{background:var(--color-primary-hover)}
     .upload-label svg{width:22px;height:22px;flex-shrink:0}
     #file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
@@ -108,16 +64,6 @@
     #lb-prev{top:50%;left:.75rem;transform:translateY(-50%)}
     #lb-next{top:50%;right:.75rem;transform:translateY(-50%)}
     #lb-counter{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:var(--text-sm);background:rgba(0,0,0,.4);padding:.35rem .9rem;border-radius:var(--radius-full);backdrop-filter:blur(8px)}
-
-    /* ── Bottom nav ── */
-    .site-nav{position:fixed;bottom:0;left:0;right:0;background:color-mix(in srgb,var(--color-bg) 88%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--color-divider);padding:.85rem 0;z-index:100}
-    .site-nav ul{display:flex;gap:.5rem;list-style:none;justify-content:center;flex-wrap:wrap}
-    .site-nav a,.site-nav button{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:.65rem 1rem;border-radius:var(--radius-full);background:none;border:none;color:var(--color-text)}
-    .site-nav a:hover,.site-nav button:hover{background:var(--color-surface-2)}
-    .site-nav a.active{color:var(--color-primary);font-weight:700}
-    .theme-toggle{border:1px solid var(--color-border)!important;background:var(--color-surface)!important}
-    main{padding-bottom:calc(44px + 3rem)}
-    .site-footer{padding:1.5rem 0 3rem;color:var(--color-text-faint);text-align:center;font-size:var(--text-sm)}
   </style>
 </head>
 <body>
@@ -131,7 +77,6 @@
   </header>
 
   <main>
-    <!-- Upload -->
     <section class="upload-section">
       <div class="container">
         <span class="eyebrow">21 luglio 2026</span>
@@ -154,7 +99,6 @@
       </div>
     </section>
 
-    <!-- Gallery -->
     <section class="gallery-section">
       <div class="container">
         <h2>I vostri ricordi</h2>
@@ -170,7 +114,6 @@
     </section>
   </main>
 
-  <!-- Lightbox -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizzatore media">
     <button class="lb-btn" id="lb-close" aria-label="Chiudi">✕</button>
     <button class="lb-btn" id="lb-prev" aria-label="Precedente">‹</button>
@@ -192,13 +135,11 @@
     <div class="container"><p>Carmela &amp; Luigi</p></div>
   </footer>
 
-  <!-- Firebase SDK (compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
+  <script src="js/theme.js"></script>
   <script>
-    // ── Firebase init ─────────────────────────────────────────────────────
     firebase.initializeApp({
       apiKey: "AIzaSyDXs5j6iXN6bmyqvG0zzwEKRli5Hq343lM",
       authDomain: "sitomatrimonio-7e66e.firebaseapp.com",
@@ -210,26 +151,11 @@
     const storage = firebase.storage();
     const db      = firebase.firestore();
 
-    // ── State ─────────────────────────────────────────────────────────────
     let items         = [];
     let filtered      = [];
     let currentFilter = 'all';
     let lbIdx         = -1;
 
-    // ── Theme ─────────────────────────────────────────────────────────────
-    const themeToggle = document.querySelector('[data-theme-toggle]');
-    let theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-    const updateIcon = () => themeToggle.textContent = theme === 'dark' ? '☀' : '☾';
-    updateIcon();
-    themeToggle.addEventListener('click', () => {
-      theme = theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      updateIcon();
-    });
-
-    // ── Load gallery from Firestore ───────────────────────────────────────
     async function loadGallery() {
       try {
         const snap = await db.collection('uploads').orderBy('createdAt', 'desc').get();
@@ -240,7 +166,6 @@
       renderGallery();
     }
 
-    // ── Render gallery ────────────────────────────────────────────────────
     function renderGallery() {
       const grid = document.getElementById('gallery-grid');
       filtered = currentFilter === 'all' ? [...items] : items.filter(i => i.type === currentFilter);
@@ -273,8 +198,6 @@
       grid.querySelectorAll('video[data-thumb]').forEach(setupVideoThumb);
     }
 
-    // Carica i metadati del video solo quando entra nel viewport,
-    // poi seek al primo frame per mostrarlo come thumbnail.
     const thumbObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -285,11 +208,8 @@
       });
     }, { rootMargin: '200px' });
 
-    function setupVideoThumb(vid) {
-      thumbObserver.observe(vid);
-    }
+    function setupVideoThumb(vid) { thumbObserver.observe(vid); }
 
-    // ── Filter buttons ────────────────────────────────────────────────────
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -299,7 +219,6 @@
       });
     });
 
-    // ── Upload ────────────────────────────────────────────────────────────
     const fileInput    = document.getElementById('file-input');
     const progressArea = document.getElementById('progress-area');
     const dropZone     = document.getElementById('drop-zone');
@@ -353,17 +272,12 @@
             try {
               const url  = await task.snapshot.ref.getDownloadURL();
               const type = file.type.startsWith('video/') ? 'video' : 'image';
-
               await db.collection('uploads').add({
-                url,
-                type,
-                name: file.name,
+                url, type, name: file.name,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
               });
-
               if (bar()) bar().style.width = '100%';
               if (st())  { st().textContent = '✓ Caricato!'; st().className = 'progress-status done'; }
-
               items.unshift({ url, type, name: file.name, createdAt: null });
               renderGallery();
             } catch(e) {
@@ -376,7 +290,6 @@
       });
     }
 
-    // ── Lightbox ──────────────────────────────────────────────────────────
     const lightbox = document.getElementById('lightbox');
     const lbInner  = document.getElementById('lb-inner');
     const lbCtr    = document.getElementById('lb-counter');
@@ -397,13 +310,11 @@
       lbInner.innerHTML = '';
       if (item.type === 'image') {
         const img = document.createElement('img');
-        img.src = item.url;
-        img.alt = 'Foto matrimonio';
+        img.src = item.url; img.alt = 'Foto matrimonio';
         lbInner.appendChild(img);
       } else {
         const vid = document.createElement('video');
-        vid.src = item.url;
-        vid.controls = true; vid.autoplay = true; vid.playsInline = true;
+        vid.src = item.url; vid.controls = true; vid.autoplay = true; vid.playsInline = true;
         lbInner.appendChild(vid);
       }
       lbCtr.textContent = `${lbIdx + 1} / ${filtered.length}`;
@@ -418,21 +329,20 @@
 
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('open')) return;
-      if (e.key === 'Escape')     closeLb();
-      if (e.key === 'ArrowLeft'  && lbIdx > 0)                    { lbIdx--; renderLb(); }
-      if (e.key === 'ArrowRight' && lbIdx < filtered.length - 1)  { lbIdx++; renderLb(); }
+      if (e.key === 'Escape')    closeLb();
+      if (e.key === 'ArrowLeft'  && lbIdx > 0)                   { lbIdx--; renderLb(); }
+      if (e.key === 'ArrowRight' && lbIdx < filtered.length - 1) { lbIdx++; renderLb(); }
     });
 
     let txStart = 0;
-    lightbox.addEventListener('touchstart', e => { txStart = e.changedTouches[0].clientX; }, { passive:true });
+    lightbox.addEventListener('touchstart', e => { txStart = e.changedTouches[0].clientX; }, { passive: true });
     lightbox.addEventListener('touchend',   e => {
       const dx = e.changedTouches[0].clientX - txStart;
       if (Math.abs(dx) < 50) return;
       if (dx < 0 && lbIdx < filtered.length - 1) { lbIdx++; renderLb(); }
       if (dx > 0 && lbIdx > 0)                    { lbIdx--; renderLb(); }
-    }, { passive:true });
+    }, { passive: true });
 
-    // ── Init ──────────────────────────────────────────────────────────────
     loadGallery();
   </script>
 </body>
