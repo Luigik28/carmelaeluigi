@@ -45,7 +45,7 @@
     .wreath-heart{height:50px;width:auto;object-fit:contain;flex-shrink:0}
     .brand-text strong{display:block;font-family:var(--font-script);font-size:2rem;line-height:1;color:var(--color-primary)}
 
-    /* ── Typography ── */
+    /* ── Eyebrow / headings ── */
     .eyebrow{display:block;font-family:var(--font-smallcaps);letter-spacing:.11em;text-transform:uppercase;color:var(--color-primary);font-size:var(--text-sm);margin-bottom:1.5rem;text-align:center;padding-bottom:1rem;border-bottom:1px solid var(--color-divider)}
     h2{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:1.25rem;color:var(--color-text);font-weight:500;text-align:center}
 
@@ -88,11 +88,8 @@
     .gallery-item{aspect-ratio:1;border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;position:relative;background:var(--color-surface-2);box-shadow:var(--shadow-sm)}
     .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
     .gallery-item:hover img{transform:scale(1.05)}
-    .video-thumb{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;background:linear-gradient(135deg,var(--color-surface-2),var(--color-border));transition:transform .3s}
-    .gallery-item:hover .video-thumb{transform:scale(1.05)}
-    .video-thumb-icon{width:44px;height:44px;background:rgba(199,163,65,.85);border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center}
-    .video-thumb-icon svg{width:20px;height:20px;margin-left:3px}
-    .video-thumb-name{font-size:var(--text-xs);color:var(--color-text-muted);text-align:center;padding:0 .5rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+    .video-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.22)}
+    .video-badge svg{width:42px;height:42px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
     .gallery-empty{text-align:center;padding:3rem 1rem;color:var(--color-text-faint);grid-column:1/-1}
     .gallery-empty-icon{font-size:3rem;margin-bottom:.5rem}
     .gallery-loading{text-align:center;padding:2rem;color:var(--color-text-faint);grid-column:1/-1;font-size:var(--text-sm)}
@@ -193,23 +190,17 @@
     <div class="container"><p>Carmela &amp; Luigi</p></div>
   </footer>
 
-  <!-- Firebase SDK (compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
   <script>
-    // ── Firebase init ─────────────────────────────────────────────────────
-    firebase.initializeApp({
-      apiKey: "AIzaSyDXs5j6iXN6bmyqvG0zzwEKRli5Hq343lM",
-      authDomain: "sitomatrimonio-7e66e.firebaseapp.com",
-      projectId: "sitomatrimonio-7e66e",
-      storageBucket: "sitomatrimonio-7e66e.firebasestorage.app",
-      messagingSenderId: "935471034954",
-      appId: "1:935471034954:web:b428ee9682a35bd557ecb3"
-    });
-    const storage = firebase.storage();
-    const db      = firebase.firestore();
+    // ── Config ───────────────────────────────────────────────────────────
+    const CLOUD  = 'dhwrjz6ug';
+    const PRESET = 'matrimonio_upload';
+    const TAG    = 'matrimonio';
+    const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD}/auto/upload`;
+
+    const imgThumb = (id) => `https://res.cloudinary.com/${CLOUD}/image/upload/q_auto,f_auto,w_400,c_fill,ar_1/${id}`;
+    const imgFull  = (id) => `https://res.cloudinary.com/${CLOUD}/image/upload/q_auto,f_auto/${id}`;
+    const vidThumb = (id) => `https://res.cloudinary.com/${CLOUD}/video/upload/q_auto,w_400,c_fill,ar_1,so_0/${id}.jpg`;
+    const vidFull  = (id) => `https://res.cloudinary.com/${CLOUD}/video/upload/q_auto/${id}`;
 
     // ── State ─────────────────────────────────────────────────────────────
     let items         = [];
@@ -230,13 +221,26 @@
       updateIcon();
     });
 
-    // ── Load gallery from Firestore ───────────────────────────────────────
+    // ── Load gallery ──────────────────────────────────────────────────────
     async function loadGallery() {
       try {
-        const snap = await db.collection('uploads').orderBy('createdAt', 'desc').get();
-        items = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const [imgRes, vidRes] = await Promise.allSettled([
+          fetch(`https://res.cloudinary.com/${CLOUD}/image/list/${TAG}.json`),
+          fetch(`https://res.cloudinary.com/${CLOUD}/video/list/${TAG}.json`),
+        ]);
+
+        const merge = [];
+        if (imgRes.status === 'fulfilled' && imgRes.value.ok) {
+          const d = await imgRes.value.json();
+          (d.resources || []).forEach(r => merge.push({ type:'image', publicId:r.public_id, createdAt:r.created_at }));
+        }
+        if (vidRes.status === 'fulfilled' && vidRes.value.ok) {
+          const d = await vidRes.value.json();
+          (d.resources || []).forEach(r => merge.push({ type:'video', publicId:r.public_id, createdAt:r.created_at }));
+        }
+        items = merge.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       } catch(e) {
-        console.error('Gallery load error:', e);
+        console.error('Gallery load error', e);
       }
       renderGallery();
     }
@@ -252,21 +256,12 @@
       }
 
       grid.innerHTML = filtered.map((item, idx) => {
-        if (item.type === 'image') {
-          return `<div class="gallery-item" data-idx="${idx}" role="button" tabindex="0" aria-label="Foto">
-            <img src="${item.url}" alt="Foto matrimonio" loading="lazy">
-          </div>`;
-        } else {
-          const shortName = (item.name || 'Video').replace(/\.[^.]+$/, '');
-          return `<div class="gallery-item" data-idx="${idx}" role="button" tabindex="0" aria-label="Video">
-            <div class="video-thumb">
-              <div class="video-thumb-icon">
-                <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-              <span class="video-thumb-name">${shortName}</span>
-            </div>
-          </div>`;
-        }
+        const thumb = item.type === 'image' ? imgThumb(item.publicId) : vidThumb(item.publicId);
+        const badge = item.type === 'video'
+          ? `<div class="video-badge"><svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>`
+          : '';
+        return `<div class="gallery-item" data-idx="${idx}" role="button" tabindex="0" aria-label="${item.type === 'video' ? 'Video' : 'Foto'}">
+          <img src="${thumb}" alt="${item.type === 'video' ? 'Video' : 'Foto'} matrimonio" loading="lazy">${badge}</div>`;
       }).join('');
 
       grid.querySelectorAll('.gallery-item').forEach(el => {
@@ -286,9 +281,9 @@
     });
 
     // ── Upload ────────────────────────────────────────────────────────────
-    const fileInput    = document.getElementById('file-input');
+    const fileInput   = document.getElementById('file-input');
     const progressArea = document.getElementById('progress-area');
-    const dropZone     = document.getElementById('drop-zone');
+    const dropZone    = document.getElementById('drop-zone');
 
     fileInput.addEventListener('change', () => processFiles(fileInput.files));
     dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('dragover'); });
@@ -301,64 +296,59 @@
 
     async function processFiles(files) {
       for (const file of files) await uploadFile(file);
-      fileInput.value = '';
     }
 
+    function slug(name) { return name.replace(/\W/g, '_').slice(0, 30); }
+
     async function uploadFile(file) {
-      const uid = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+      const id = slug(file.name) + '_' + Date.now();
       const shortName = file.name.length > 32 ? file.name.slice(0, 30) + '…' : file.name;
 
       const el = document.createElement('div');
       el.className = 'progress-item';
       el.innerHTML = `
         <div class="progress-name">${shortName}</div>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="bar-${uid}"></div></div>
-        <div class="progress-status" id="st-${uid}">In caricamento…</div>`;
+        <div class="progress-bar-wrap"><div class="progress-bar" id="bar-${id}"></div></div>
+        <div class="progress-status" id="st-${id}">In caricamento…</div>`;
       progressArea.prepend(el);
 
-      const bar = () => document.getElementById(`bar-${uid}`);
-      const st  = () => document.getElementById(`st-${uid}`);
+      const bar = document.getElementById(`bar-${id}`);
+      const st  = document.getElementById(`st-${id}`);
 
-      const path = `matrimonio/${Date.now()}_${file.name}`;
-      const ref  = storage.ref(path);
-      const task = ref.put(file);
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('upload_preset', PRESET);
+      fd.append('tags', TAG);
 
       return new Promise(resolve => {
-        task.on('state_changed',
-          snapshot => {
-            const pct = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
-            if (bar()) bar().style.width = pct + '%';
-            if (st())  st().textContent  = pct + '%';
-          },
-          error => {
-            console.error('Upload error:', error);
-            if (st()) { st().textContent = '✗ Errore nel caricamento'; st().className = 'progress-status error'; }
-            resolve();
-          },
-          async () => {
-            try {
-              const url  = await task.snapshot.ref.getDownloadURL();
-              const type = file.type.startsWith('video/') ? 'video' : 'image';
-
-              await db.collection('uploads').add({
-                url,
-                type,
-                name: file.name,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-              });
-
-              if (bar()) bar().style.width = '100%';
-              if (st())  { st().textContent = '✓ Caricato!'; st().className = 'progress-status done'; }
-
-              items.unshift({ url, type, name: file.name, createdAt: null });
-              renderGallery();
-            } catch(e) {
-              console.error('Firestore error:', e);
-              if (st()) { st().textContent = '✗ Errore nel salvataggio'; st().className = 'progress-status error'; }
-            }
-            resolve();
+        const xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener('progress', e => {
+          if (!e.lengthComputable) return;
+          const pct = Math.round(e.loaded / e.total * 100);
+          bar.style.width = pct + '%';
+          st.textContent  = pct + '%';
+        });
+        xhr.addEventListener('load', () => {
+          if (xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            bar.style.width = '100%';
+            st.textContent  = '✓ Caricato!';
+            st.className    = 'progress-status done';
+            items.unshift({ type: data.resource_type === 'video' ? 'video' : 'image', publicId: data.public_id, createdAt: data.created_at });
+            renderGallery();
+          } else {
+            st.textContent = '✗ Errore nel caricamento';
+            st.className   = 'progress-status error';
           }
-        );
+          resolve();
+        });
+        xhr.addEventListener('error', () => {
+          st.textContent = '✗ Errore di rete';
+          st.className   = 'progress-status error';
+          resolve();
+        });
+        xhr.open('POST', UPLOAD_URL);
+        xhr.send(fd);
       });
     }
 
@@ -383,12 +373,12 @@
       lbInner.innerHTML = '';
       if (item.type === 'image') {
         const img = document.createElement('img');
-        img.src = item.url;
+        img.src = imgFull(item.publicId);
         img.alt = 'Foto matrimonio';
         lbInner.appendChild(img);
       } else {
         const vid = document.createElement('video');
-        vid.src = item.url;
+        vid.src = vidFull(item.publicId);
         vid.controls = true; vid.autoplay = true; vid.playsInline = true;
         lbInner.appendChild(vid);
       }
