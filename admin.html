@@ -53,18 +53,18 @@
     <div class="login-card">
       <div class="login-logo">Carmela &amp; Luigi</div>
       <p class="login-subtitle">Amministrazione</p>
-      <form class="login-form" id="login-form" novalidate>
+      <div class="login-form">
         <div class="login-field">
           <label for="u">Username</label>
-          <input id="u" type="text" autocomplete="username" required>
+          <input id="u" type="text" autocomplete="username">
         </div>
         <div class="login-field">
           <label for="p">Password</label>
-          <input id="p" type="password" autocomplete="current-password" required>
+          <input id="p" type="password" autocomplete="current-password">
         </div>
         <p class="login-error" id="login-error" aria-live="polite"></p>
-        <button type="submit" class="btn btn-primary" style="width:100%">Accedi</button>
-      </form>
+        <button id="login-btn" class="btn btn-primary" style="width:100%">Accedi</button>
+      </div>
     </div>
   </div>
 
@@ -112,8 +112,7 @@
 
     if (sessionStorage.getItem(SESSION_KEY) === '1') showPanel();
 
-    document.getElementById('login-form').addEventListener('submit', e => {
-      e.preventDefault();
+    function tryLogin() {
       const u = document.getElementById('u').value.trim();
       const p = document.getElementById('p').value;
       if (u === CREDS.user && p === CREDS.pass) {
@@ -122,7 +121,11 @@
       } else {
         document.getElementById('login-error').textContent = 'Credenziali non valide';
       }
-    });
+    }
+
+    document.getElementById('login-btn').addEventListener('click', tryLogin);
+    document.getElementById('p').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+    document.getElementById('u').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
 
     document.getElementById('logout-btn').addEventListener('click', () => {
       sessionStorage.removeItem(SESSION_KEY);
