@@ -88,11 +88,10 @@
     .gallery-item{aspect-ratio:1;border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;position:relative;background:var(--color-surface-2);box-shadow:var(--shadow-sm)}
     .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
     .gallery-item:hover img{transform:scale(1.05)}
-    .video-thumb{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;background:linear-gradient(135deg,var(--color-surface-2),var(--color-border));transition:transform .3s}
-    .gallery-item:hover .video-thumb{transform:scale(1.05)}
-    .video-thumb-icon{width:44px;height:44px;background:rgba(199,163,65,.85);border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center}
-    .video-thumb-icon svg{width:20px;height:20px;margin-left:3px}
-    .video-thumb-name{font-size:var(--text-xs);color:var(--color-text-muted);text-align:center;padding:0 .5rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+    .gallery-item video{width:100%;height:100%;object-fit:cover;transition:transform .3s;display:block}
+    .gallery-item:hover video{transform:scale(1.05)}
+    .video-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.22);pointer-events:none}
+    .video-badge svg{width:42px;height:42px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
     .gallery-empty{text-align:center;padding:3rem 1rem;color:var(--color-text-faint);grid-column:1/-1}
     .gallery-empty-icon{font-size:3rem;margin-bottom:.5rem}
     .gallery-loading{text-align:center;padding:2rem;color:var(--color-text-faint);grid-column:1/-1;font-size:var(--text-sm)}
@@ -257,13 +256,10 @@
             <img src="${item.url}" alt="Foto matrimonio" loading="lazy">
           </div>`;
         } else {
-          const shortName = (item.name || 'Video').replace(/\.[^.]+$/, '');
           return `<div class="gallery-item" data-idx="${idx}" role="button" tabindex="0" aria-label="Video">
-            <div class="video-thumb">
-              <div class="video-thumb-icon">
-                <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-              <span class="video-thumb-name">${shortName}</span>
+            <video src="${item.url}" preload="none" muted playsinline data-thumb></video>
+            <div class="video-badge">
+              <svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
           </div>`;
         }
@@ -273,6 +269,24 @@
         el.addEventListener('click', () => openLb(+el.dataset.idx));
         el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openLb(+el.dataset.idx); });
       });
+
+      grid.querySelectorAll('video[data-thumb]').forEach(setupVideoThumb);
+    }
+
+    // Carica i metadati del video solo quando entra nel viewport,
+    // poi seek al primo frame per mostrarlo come thumbnail.
+    const thumbObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const vid = entry.target;
+        thumbObserver.unobserve(vid);
+        vid.preload = 'metadata';
+        vid.addEventListener('loadedmetadata', () => { vid.currentTime = 0.001; }, { once: true });
+      });
+    }, { rootMargin: '200px' });
+
+    function setupVideoThumb(vid) {
+      thumbObserver.observe(vid);
     }
 
     // ── Filter buttons ────────────────────────────────────────────────────
