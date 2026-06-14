@@ -22,6 +22,10 @@
     .login-field label{font-weight:600;font-size:var(--text-sm)}
     .login-field input{min-height:48px;padding:.9rem 1rem;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);width:100%}
     .login-field input:focus{outline:2px solid var(--color-primary);outline-offset:2px;border-color:transparent}
+    .pw-wrap{position:relative}
+    .pw-wrap input{padding-right:3rem}
+    .pw-toggle{position:absolute;right:.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.1rem;line-height:1;padding:.25rem;color:var(--color-text-muted);opacity:.6}
+    .pw-toggle:hover{opacity:1}
     .login-remember{display:flex;align-items:center;gap:.5rem;font-size:var(--text-sm);cursor:pointer;user-select:none}
     .login-remember input{width:16px;height:16px;accent-color:var(--color-primary);cursor:pointer}
     .login-error{color:#c0392b;font-size:var(--text-sm);text-align:center;min-height:1.4em}
@@ -72,12 +76,15 @@
       <p class="login-subtitle">Amministrazione</p>
       <div class="login-form">
         <div class="login-field">
-          <label for="u">Username</label>
-          <input id="u" type="text" autocomplete="username">
+          <label for="u">Email</label>
+          <input id="u" type="email" autocomplete="email">
         </div>
         <div class="login-field">
           <label for="p">Password</label>
-          <input id="p" type="password" autocomplete="current-password">
+          <div class="pw-wrap">
+            <input id="p" type="password" autocomplete="current-password">
+            <button type="button" id="pw-toggle" class="pw-toggle" aria-label="Mostra password">👁</button>
+          </div>
         </div>
         <label class="login-remember">
           <input type="checkbox" id="remember"> Ricordami
@@ -124,72 +131,77 @@
   <div id="toast" class="toast"></div>
 
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script>
-    const CREDS = { user: 'admin', pass: 'asdasd' };
-    const AUTH_KEY = 'adminAuth';
-
     const loginScreen = document.getElementById('login-screen');
     const adminPanel  = document.getElementById('admin-panel');
 
-    let db, storage, items = [], lbIdx = -1;
+    let items = [], lbIdx = -1;
 
-    function showPanel() {
-      loginScreen.hidden = true;
-      adminPanel.hidden  = false;
-      initFirebase();
-    }
+    // ── Firebase init ─────────────────────────────────────────────────────
+    firebase.initializeApp({
+      apiKey: "AIzaSyDXs5j6iXN6bmyqvG0zzwEKRli5Hq343lM",
+      authDomain: "sitomatrimonio-7e66e.firebaseapp.com",
+      projectId: "sitomatrimonio-7e66e",
+      storageBucket: "sitomatrimonio-7e66e.firebasestorage.app",
+      messagingSenderId: "935471034954",
+      appId: "1:935471034954:web:b428ee9682a35bd557ecb3"
+    });
+    const auth    = firebase.auth();
+    const db      = firebase.firestore();
+    const storage = firebase.storage();
 
-    function tryLogin() {
-      const u = document.getElementById('u').value.trim();
-      const p = document.getElementById('p').value;
-      loginScreen.hidden = true;
-      if (u === CREDS.user && p === CREDS.pass) {
-        const remember = document.getElementById('remember').checked;
-        if (remember) {
-          localStorage.setItem(AUTH_KEY, '1');
-        } else {
-          sessionStorage.setItem(AUTH_KEY, '1');
-        }
-        adminPanel.hidden = false;
-        initFirebase();
+    // ── Auth state ────────────────────────────────────────────────────────
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        loginScreen.hidden = true;
+        adminPanel.hidden  = false;
+        loadGallery();
       } else {
         loginScreen.hidden = false;
-        document.getElementById('login-error').textContent = 'Credenziali non valide';
+        adminPanel.hidden  = true;
+      }
+    });
+
+    // ── Login ─────────────────────────────────────────────────────────────
+    async function tryLogin() {
+      const email    = document.getElementById('u').value.trim();
+      const password = document.getElementById('p').value;
+      const remember = document.getElementById('remember').checked;
+
+      document.getElementById('login-error').textContent = '';
+      loginScreen.hidden = true;
+
+      try {
+        const persistence = remember
+          ? firebase.auth.Auth.Persistence.LOCAL
+          : firebase.auth.Auth.Persistence.SESSION;
+        await auth.setPersistence(persistence);
+        await auth.signInWithEmailAndPassword(email, password);
+      } catch(e) {
+        loginScreen.hidden = false;
+        const bad = ['auth/invalid-credential','auth/wrong-password','auth/user-not-found','auth/invalid-email'];
+        document.getElementById('login-error').textContent = bad.includes(e.code)
+          ? 'Credenziali non valide'
+          : 'Errore di accesso';
       }
     }
 
-    // Registra tutti i listener prima dell'auto-login così sono sempre attivi
+    document.getElementById('pw-toggle').addEventListener('click', () => {
+      const input = document.getElementById('p');
+      const show  = input.type === 'password';
+      input.type  = show ? 'text' : 'password';
+      document.getElementById('pw-toggle').textContent = show ? '🙈' : '👁';
+    });
+
     document.getElementById('login-btn').addEventListener('click', tryLogin);
     document.getElementById('p').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
     document.getElementById('u').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
 
     document.getElementById('refresh-btn').addEventListener('click', () => loadGallery());
-
-    document.getElementById('logout-btn').addEventListener('click', () => {
-      localStorage.removeItem(AUTH_KEY);
-      sessionStorage.removeItem(AUTH_KEY);
-      location.reload();
-    });
-
-    // Auto-login se "Ricordami" era selezionato (localStorage) oppure stessa sessione (sessionStorage)
-    if (localStorage.getItem(AUTH_KEY) === '1' || sessionStorage.getItem(AUTH_KEY) === '1') showPanel();
-
-    // ── Firebase ──────────────────────────────────────────────────────────
-    function initFirebase() {
-      firebase.initializeApp({
-        apiKey: "AIzaSyDXs5j6iXN6bmyqvG0zzwEKRli5Hq343lM",
-        authDomain: "sitomatrimonio-7e66e.firebaseapp.com",
-        projectId: "sitomatrimonio-7e66e",
-        storageBucket: "sitomatrimonio-7e66e.firebasestorage.app",
-        messagingSenderId: "935471034954",
-        appId: "1:935471034954:web:b428ee9682a35bd557ecb3"
-      });
-      db      = firebase.firestore();
-      storage = firebase.storage();
-      loadGallery();
-    }
+    document.getElementById('logout-btn').addEventListener('click', () => auth.signOut());
 
     async function loadGallery() {
       const grid = document.getElementById('admin-grid');
