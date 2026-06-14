@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <style>
+    [hidden]{display:none!important}
+
     /* ── Login ── */
     .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
     .login-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:2.5rem;width:min(100%,380px);box-shadow:var(--shadow-lg)}
@@ -20,6 +22,8 @@
     .login-field label{font-weight:600;font-size:var(--text-sm)}
     .login-field input{min-height:48px;padding:.9rem 1rem;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);width:100%}
     .login-field input:focus{outline:2px solid var(--color-primary);outline-offset:2px;border-color:transparent}
+    .login-remember{display:flex;align-items:center;gap:.5rem;font-size:var(--text-sm);cursor:pointer;user-select:none}
+    .login-remember input{width:16px;height:16px;accent-color:var(--color-primary);cursor:pointer}
     .login-error{color:#c0392b;font-size:var(--text-sm);text-align:center;min-height:1.4em}
 
     /* ── Admin header ── */
@@ -34,7 +38,7 @@
     .admin-main{padding:2rem 0 4rem}
     .admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.75rem}
     @media(min-width:600px){.admin-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}}
-    .admin-item{aspect-ratio:1;border-radius:var(--radius-lg);overflow:hidden;position:relative;background:var(--color-surface-2);box-shadow:var(--shadow-sm);transition:opacity .3s}
+    .admin-item{aspect-ratio:1;border-radius:var(--radius-lg);overflow:hidden;position:relative;background:var(--color-surface-2);box-shadow:var(--shadow-sm);transition:opacity .3s;cursor:pointer}
     .admin-item img,.admin-item video{width:100%;height:100%;object-fit:cover}
     .admin-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:flex-start;justify-content:flex-end;padding:.5rem;transition:background .2s}
     .admin-item:hover .admin-overlay{background:rgba(0,0,0,.4)}
@@ -44,6 +48,19 @@
     .video-tag{position:absolute;bottom:.5rem;left:.5rem;background:rgba(0,0,0,.6);border-radius:var(--radius-full);padding:.15rem .55rem;font-size:var(--text-xs);color:#fff;pointer-events:none}
     .admin-item.deleting{opacity:.3;pointer-events:none}
     .admin-empty{grid-column:1/-1;text-align:center;padding:4rem 1rem;color:var(--color-text-faint);font-size:var(--text-sm)}
+
+    /* ── Lightbox ── */
+    .lightbox{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.93);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s}
+    .lightbox.open{opacity:1;pointer-events:all}
+    .lightbox-inner{position:relative;max-width:min(95vw,1000px);max-height:90vh;display:flex;align-items:center;justify-content:center}
+    .lightbox-inner img{max-width:100%;max-height:90vh;border-radius:var(--radius-md);object-fit:contain}
+    .lightbox-inner video{max-width:100%;max-height:90vh;border-radius:var(--radius-md)}
+    .lb-btn{position:fixed;width:44px;height:44px;border-radius:var(--radius-full);background:rgba(255,255,255,.14);border:none;color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:background .2s;cursor:pointer}
+    .lb-btn:hover{background:rgba(255,255,255,.26)}
+    #lb-close{top:1rem;right:1rem;font-size:1.2rem}
+    #lb-prev{top:50%;left:.75rem;transform:translateY(-50%)}
+    #lb-next{top:50%;right:.75rem;transform:translateY(-50%)}
+    #lb-counter{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:var(--text-sm);background:rgba(0,0,0,.4);padding:.35rem .9rem;border-radius:var(--radius-full);backdrop-filter:blur(8px)}
   </style>
 </head>
 <body>
@@ -62,6 +79,9 @@
           <label for="p">Password</label>
           <input id="p" type="password" autocomplete="current-password">
         </div>
+        <label class="login-remember">
+          <input type="checkbox" id="remember"> Ricordami
+        </label>
         <p class="login-error" id="login-error" aria-live="polite"></p>
         <button id="login-btn" class="btn btn-primary" style="width:100%">Accedi</button>
       </div>
@@ -78,6 +98,7 @@
         </div>
         <div class="admin-actions">
           <span class="admin-count" id="admin-count"></span>
+          <button class="btn" id="refresh-btn" style="border:1px solid var(--color-border)" title="Aggiorna">↻</button>
           <button class="btn" id="logout-btn" style="border:1px solid var(--color-border)">Esci</button>
         </div>
       </div>
@@ -92,6 +113,14 @@
     </main>
   </div>
 
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizzatore media">
+    <button class="lb-btn" id="lb-close" aria-label="Chiudi">✕</button>
+    <button class="lb-btn" id="lb-prev" aria-label="Precedente">‹</button>
+    <div class="lightbox-inner" id="lb-inner"></div>
+    <button class="lb-btn" id="lb-next" aria-label="Successivo">›</button>
+    <div id="lb-counter"></div>
+  </div>
+
   <div id="toast" class="toast"></div>
 
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -99,10 +128,12 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script>
     const CREDS = { user: 'admin', pass: 'asdasd' };
-    const SESSION_KEY = 'adminAuth';
+    const AUTH_KEY = 'adminAuth';
 
     const loginScreen = document.getElementById('login-screen');
     const adminPanel  = document.getElementById('admin-panel');
+
+    let db, storage, items = [], lbIdx = -1;
 
     function showPanel() {
       loginScreen.hidden = true;
@@ -110,32 +141,42 @@
       initFirebase();
     }
 
-    if (sessionStorage.getItem(SESSION_KEY) === '1') showPanel();
-
     function tryLogin() {
       const u = document.getElementById('u').value.trim();
       const p = document.getElementById('p').value;
+      loginScreen.hidden = true;
       if (u === CREDS.user && p === CREDS.pass) {
-        sessionStorage.setItem(SESSION_KEY, '1');
-        showPanel();
+        const remember = document.getElementById('remember').checked;
+        if (remember) {
+          localStorage.setItem(AUTH_KEY, '1');
+        } else {
+          sessionStorage.setItem(AUTH_KEY, '1');
+        }
+        adminPanel.hidden = false;
+        initFirebase();
       } else {
+        loginScreen.hidden = false;
         document.getElementById('login-error').textContent = 'Credenziali non valide';
       }
     }
 
+    // Registra tutti i listener prima dell'auto-login così sono sempre attivi
     document.getElementById('login-btn').addEventListener('click', tryLogin);
     document.getElementById('p').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
     document.getElementById('u').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
 
+    document.getElementById('refresh-btn').addEventListener('click', () => loadGallery());
+
     document.getElementById('logout-btn').addEventListener('click', () => {
-      sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(AUTH_KEY);
+      sessionStorage.removeItem(AUTH_KEY);
       location.reload();
     });
 
-    // ── Firebase ──────────────────────────────────────────────────────────
-    let db, storage;
-    let items = [];
+    // Auto-login se "Ricordami" era selezionato (localStorage) oppure stessa sessione (sessionStorage)
+    if (localStorage.getItem(AUTH_KEY) === '1' || sessionStorage.getItem(AUTH_KEY) === '1') showPanel();
 
+    // ── Firebase ──────────────────────────────────────────────────────────
     function initFirebase() {
       firebase.initializeApp({
         apiKey: "AIzaSyDXs5j6iXN6bmyqvG0zzwEKRli5Hq343lM",
@@ -197,12 +238,70 @@
         obs.observe(vid);
       });
 
+      grid.querySelectorAll('.admin-item').forEach((el, idx) => {
+        el.addEventListener('click', () => openLb(idx));
+      });
+
       grid.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', () =>
-          deleteItem(btn.dataset.id, btn.dataset.url, btn.dataset.path)
-        );
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          deleteItem(btn.dataset.id, btn.dataset.url, btn.dataset.path);
+        });
       });
     }
+
+    const lightbox = document.getElementById('lightbox');
+    const lbInner  = document.getElementById('lb-inner');
+    const lbCtr    = document.getElementById('lb-counter');
+
+    function openLb(idx) {
+      lbIdx = idx;
+      renderLb();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLb() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      lbInner.innerHTML = '';
+    }
+    function renderLb() {
+      const item = items[lbIdx];
+      lbInner.innerHTML = '';
+      if (item.type === 'image') {
+        const img = document.createElement('img');
+        img.src = item.url; img.alt = item.name || 'Foto';
+        lbInner.appendChild(img);
+      } else {
+        const vid = document.createElement('video');
+        vid.src = item.url; vid.controls = true; vid.autoplay = true; vid.playsInline = true;
+        lbInner.appendChild(vid);
+      }
+      lbCtr.textContent = `${lbIdx + 1} / ${items.length}`;
+      document.getElementById('lb-prev').style.visibility = lbIdx === 0 ? 'hidden' : '';
+      document.getElementById('lb-next').style.visibility = lbIdx === items.length - 1 ? 'hidden' : '';
+    }
+
+    document.getElementById('lb-close').addEventListener('click', closeLb);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+    document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); if (lbIdx > 0) { lbIdx--; renderLb(); } });
+    document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); if (lbIdx < items.length - 1) { lbIdx++; renderLb(); } });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape')     closeLb();
+      if (e.key === 'ArrowLeft'  && lbIdx > 0)              { lbIdx--; renderLb(); }
+      if (e.key === 'ArrowRight' && lbIdx < items.length-1) { lbIdx++; renderLb(); }
+    });
+
+    let txStart = 0;
+    lightbox.addEventListener('touchstart', e => { txStart = e.changedTouches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - txStart;
+      if (Math.abs(dx) < 50) return;
+      if (dx < 0 && lbIdx < items.length - 1) { lbIdx++; renderLb(); }
+      if (dx > 0 && lbIdx > 0)                 { lbIdx--; renderLb(); }
+    }, { passive: true });
 
     async function deleteItem(docId, url, storagePath) {
       if (!confirm('Eliminare questo file definitivamente?')) return;
