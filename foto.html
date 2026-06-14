@@ -256,6 +256,7 @@
       const ref  = storage.ref(path);
       const task = ref.put(file);
 
+
       return new Promise(resolve => {
         task.on('state_changed',
           snapshot => {
@@ -273,7 +274,7 @@
               const url  = await task.snapshot.ref.getDownloadURL();
               const type = file.type.startsWith('video/') ? 'video' : 'image';
               await db.collection('uploads').add({
-                url, type, name: file.name,
+                url, type, name: file.name, path,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
               });
               if (bar()) bar().style.width = '100%';
