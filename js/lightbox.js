@@ -99,14 +99,20 @@ async function download() {
   }
 }
 
-export function openLightbox(items, idx, shareTitle = 'Media') {
+// I moduli ES sono deferred: vengono eseguiti dopo il parsing del DOM,
+// quindi document.body esiste già. Iniettare qui garantisce che iOS Safari
+// abbia già dipinto l'elemento (opacity:0) prima di qualsiasi transizione.
+if (document.body) {
   init();
+} else {
+  document.addEventListener('DOMContentLoaded', init);
+}
+
+export function openLightbox(items, idx, shareTitle = 'Media') {
   _items = items;
   _idx = idx;
   _shareTitle = shareTitle;
   render();
-  const lb = document.getElementById('lightbox');
-  lb.getBoundingClientRect(); // forza reflow prima della transizione su iOS Safari
-  lb.classList.add('open');
+  document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
