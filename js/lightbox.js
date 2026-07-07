@@ -105,6 +105,8 @@ export function openLightbox(items, idx, shareTitle = 'Media') {
   _idx = idx;
   _shareTitle = shareTitle;
   render();
-  document.getElementById('lightbox').classList.add('open');
+  const lb = document.getElementById('lightbox');
+  lb.getBoundingClientRect(); // forza reflow prima della transizione su iOS Safari
+  lb.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
