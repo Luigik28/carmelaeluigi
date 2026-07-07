@@ -118,7 +118,10 @@
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizzatore media">
     <div class="lb-topbar">
       <div id="lb-counter"></div>
-      <button class="lb-btn" id="lb-close" aria-label="Chiudi">✕</button>
+      <div style="display:flex;gap:.5rem">
+        <button class="lb-btn" id="lb-download" aria-label="Scarica">⬇</button>
+        <button class="lb-btn" id="lb-close" aria-label="Chiudi">✕</button>
+      </div>
     </div>
     <button class="lb-btn" id="lb-prev" aria-label="Precedente">‹</button>
     <div class="lightbox-inner" id="lb-inner"></div>
@@ -369,6 +372,30 @@
       document.getElementById('lb-next').style.visibility = lbIdx === filtered.length - 1 ? 'hidden' : '';
     }
 
+    async function downloadCurrent() {
+      const item = filtered[lbIdx];
+      const btn  = document.getElementById('lb-download');
+      const name = item.name || (item.type === 'video' ? 'matrimonio.mp4' : 'matrimonio.jpg');
+      btn.textContent = '⏳'; btn.disabled = true;
+      try {
+        const blob = await fetch(item.url).then(r => r.blob());
+        const file = new File([blob], name, { type: blob.type });
+        if (navigator.canShare?.({ files: [file] })) {
+          await navigator.share({ files: [file], title: 'Carmela & Luigi' });
+        } else {
+          const url = URL.createObjectURL(blob);
+          Object.assign(document.createElement('a'), { href: url, download: name })
+            .dispatchEvent(new MouseEvent('click'));
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+      } catch(e) {
+        if (e.name !== 'AbortError') window.open(item.url, '_blank');
+      } finally {
+        btn.textContent = '⬇'; btn.disabled = false;
+      }
+    }
+
+    document.getElementById('lb-download').addEventListener('click', downloadCurrent);
     document.getElementById('lb-close').addEventListener('click', closeLb);
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
     document.getElementById('lb-prev').addEventListener('click', () => { if (lbIdx > 0) { lbIdx--; renderLb(); } });
