@@ -25,6 +25,7 @@
 }
 
 /* ── Reset ──────────────────────────────────────────────────────────────── */
+[hidden]{display:none!important}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.7;background:var(--color-bg);color:var(--color-text)}
@@ -71,3 +72,17 @@ h3{font-size:1.6rem;margin-bottom:.75rem;color:var(--color-text)}
 /* ── Toast ───────────────────────────────────────────────────────────────── */
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(150px);background:var(--color-primary);color:var(--color-text-inverse);padding:.9rem 1.5rem;border-radius:var(--radius-full);box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;z-index:1000;font-weight:500;font-size:var(--text-sm)}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ── Lightbox ────────────────────────────────────────────────────────────── */
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.93);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s}
+.lightbox.open{opacity:1;pointer-events:all}
+.lightbox-inner{max-width:min(95vw,1000px);max-height:90vh;display:flex;align-items:center;justify-content:center}
+.lightbox-inner img{max-width:100%;max-height:90vh;border-radius:var(--radius-md);object-fit:contain}
+.lightbox-inner video{max-width:100%;max-height:90vh;border-radius:var(--radius-md)}
+.lb-btn{width:44px;height:44px;border-radius:var(--radius-full);background:rgba(255,255,255,.14);border:none;color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:background .2s;cursor:pointer;flex-shrink:0}
+.lb-btn:hover{background:rgba(255,255,255,.26)}
+.lb-topbar{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:.6rem .75rem;background:linear-gradient(rgba(0,0,0,.55),transparent);pointer-events:none}
+.lb-topbar>*{pointer-events:all}
+#lb-counter{color:rgba(255,255,255,.85);font-size:var(--text-sm);background:rgba(0,0,0,.35);padding:.25rem .8rem;border-radius:var(--radius-full);backdrop-filter:blur(8px)}
+#lb-prev{position:fixed;top:50%;left:.75rem;transform:translateY(-50%);z-index:1}
+#lb-next{position:fixed;top:50%;right:.75rem;transform:translateY(-50%);z-index:1}
