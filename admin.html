@@ -105,6 +105,7 @@
         </div>
         <div class="admin-actions">
           <span class="admin-count" id="admin-count"></span>
+          <button class="btn" id="gen-thumbs-btn" style="border:1px solid var(--color-border)" title="Genera thumbnail mancanti">🖼</button>
           <button class="btn" id="refresh-btn" style="border:1px solid var(--color-border)" title="Aggiorna">↻</button>
           <button class="btn" id="logout-btn" style="border:1px solid var(--color-border)">Esci</button>
         </div>
@@ -200,8 +201,71 @@
     document.getElementById('p').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
     document.getElementById('u').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
 
+    document.getElementById('gen-thumbs-btn').addEventListener('click', generateMissingThumbs);
     document.getElementById('refresh-btn').addEventListener('click', () => loadGallery());
     document.getElementById('logout-btn').addEventListener('click', () => auth.signOut());
+
+    function compressImage(file, maxPx = 1920, quality = 0.82) {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            let { width, height } = img;
+            if (width <= maxPx && height <= maxPx) { resolve(file); return; }
+            if (width > height) { height = Math.round(height * maxPx / width); width = maxPx; }
+            else                { width  = Math.round(width  * maxPx / height); height = maxPx; }
+            const canvas = document.createElement('canvas');
+            canvas.width = width; canvas.height = height;
+            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+            canvas.toBlob(
+              blob => resolve(new File([blob], file.name, { type: 'image/jpeg' })),
+              'image/jpeg', quality
+            );
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function generateMissingThumbs() {
+      const btn = document.getElementById('gen-thumbs-btn');
+      const toProcess = items.filter(i => i.type === 'image' && !i.thumbUrl);
+      if (!toProcess.length) { showToast('Nessuna thumbnail mancante'); return; }
+
+      btn.disabled = true;
+      let done = 0;
+
+      for (const item of toProcess) {
+        btn.textContent = `⏳ ${done}/${toProcess.length}`;
+        try {
+          const resp  = await fetch(item.url);
+          const blob  = await resp.blob();
+          const file  = new File([blob], item.name || 'image.jpg', { type: blob.type || 'image/jpeg' });
+          const thumb = await compressImage(file, 500, 0.7);
+
+          const thumbPath = item.path
+            ? 'matrimonio/thumbs/' + item.path.replace(/^matrimonio\//, '')
+            : `matrimonio/thumbs/${Date.now()}_${item.name || 'img.jpg'}`;
+
+          const snap     = await storage.ref(thumbPath).put(thumb);
+          const thumbUrl = await snap.ref.getDownloadURL();
+
+          await db.collection('uploads').doc(item.id).update({ thumbUrl, thumbPath });
+          item.thumbUrl  = thumbUrl;
+          item.thumbPath = thumbPath;
+          done++;
+        } catch(e) {
+          console.error('Errore thumbnail per', item.id, e);
+        }
+      }
+
+      btn.textContent = '🖼';
+      btn.disabled = false;
+      renderGrid();
+      showToast(`${done}/${toProcess.length} thumbnail generate`);
+    }
 
     async function loadGallery() {
       const grid = document.getElementById('admin-grid');
@@ -227,7 +291,7 @@
       grid.innerHTML = items.map(item => `
         <div class="admin-item" id="item-${item.id}">
           ${item.type === 'image'
-            ? `<img src="${item.url}" alt="${escHtml(item.name || '')}" loading="lazy">`
+            ? `<img src="${item.thumbUrl || item.url}" alt="${escHtml(item.name || '')}" loading="lazy">`
             : `<video src="${item.url}" preload="none" muted playsinline data-thumb></video>
                <div class="video-tag">▶ Video</div>`}
           <div class="admin-overlay">
@@ -235,6 +299,7 @@
               data-id="${item.id}"
               data-url="${escHtml(item.url)}"
               data-path="${escHtml(item.path || '')}"
+              data-thumb-path="${escHtml(item.thumbPath || '')}"
               title="Elimina" aria-label="Elimina">✕</button>
           </div>
         </div>
@@ -257,7 +322,7 @@
       grid.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', e => {
           e.stopPropagation();
-          deleteItem(btn.dataset.id, btn.dataset.url, btn.dataset.path);
+          deleteItem(btn.dataset.id, btn.dataset.url, btn.dataset.path, btn.dataset.thumbPath);
         });
       });
     }
@@ -315,7 +380,7 @@
       if (dx > 0 && lbIdx > 0)                 { lbIdx--; renderLb(); }
     }, { passive: true });
 
-    async function deleteItem(docId, url, storagePath) {
+    async function deleteItem(docId, url, storagePath, thumbPath) {
       if (!confirm('Eliminare questo file definitivamente?')) return;
 
       const el = document.getElementById(`item-${docId}`);
@@ -327,6 +392,9 @@
         const path = storagePath || pathFromUrl(url);
         if (path) {
           try { await storage.ref(path).delete(); } catch { /* già rimosso */ }
+        }
+        if (thumbPath) {
+          try { await storage.ref(thumbPath).delete(); } catch { /* già rimosso */ }
         }
 
         items = items.filter(i => i.id !== docId);
