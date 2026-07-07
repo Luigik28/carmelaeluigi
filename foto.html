@@ -58,12 +58,13 @@
     .lightbox-inner{position:relative;max-width:min(95vw,1000px);max-height:90vh;display:flex;align-items:center;justify-content:center}
     .lightbox-inner img{max-width:100%;max-height:90vh;border-radius:var(--radius-md);object-fit:contain}
     .lightbox-inner video{max-width:100%;max-height:90vh;border-radius:var(--radius-md)}
-    .lb-btn{position:fixed;width:44px;height:44px;border-radius:var(--radius-full);background:rgba(255,255,255,.14);border:none;color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:background .2s}
+    .lb-btn{width:44px;height:44px;border-radius:var(--radius-full);background:rgba(255,255,255,.14);border:none;color:#fff;font-size:1.5rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:background .2s;cursor:pointer;flex-shrink:0}
     .lb-btn:hover{background:rgba(255,255,255,.26)}
-    #lb-close{top:1rem;right:1rem;font-size:1.2rem}
-    #lb-prev{top:50%;left:.75rem;transform:translateY(-50%)}
-    #lb-next{top:50%;right:.75rem;transform:translateY(-50%)}
-    #lb-counter{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:var(--text-sm);background:rgba(0,0,0,.4);padding:.35rem .9rem;border-radius:var(--radius-full);backdrop-filter:blur(8px)}
+    .lb-topbar{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:.6rem .75rem;background:linear-gradient(rgba(0,0,0,.55),transparent);pointer-events:none}
+    .lb-topbar>*{pointer-events:all}
+    #lb-counter{color:rgba(255,255,255,.85);font-size:var(--text-sm);background:rgba(0,0,0,.35);padding:.25rem .8rem;border-radius:var(--radius-full);backdrop-filter:blur(8px)}
+    #lb-prev{position:fixed;top:50%;left:.75rem;transform:translateY(-50%)}
+    #lb-next{position:fixed;top:50%;right:.75rem;transform:translateY(-50%)}
   </style>
 </head>
 <body>
@@ -115,11 +116,13 @@
   </main>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizzatore media">
-    <button class="lb-btn" id="lb-close" aria-label="Chiudi">✕</button>
+    <div class="lb-topbar">
+      <div id="lb-counter"></div>
+      <button class="lb-btn" id="lb-close" aria-label="Chiudi">✕</button>
+    </div>
     <button class="lb-btn" id="lb-prev" aria-label="Precedente">‹</button>
     <div class="lightbox-inner" id="lb-inner"></div>
     <button class="lb-btn" id="lb-next" aria-label="Successivo">›</button>
-    <div id="lb-counter"></div>
   </div>
 
   <nav class="site-nav" aria-label="Navigazione principale">
