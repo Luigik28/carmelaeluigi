@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=3">
   <style>
     /* ── Login ── */
     .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
@@ -112,8 +112,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script type="module">
-    import { db, storage, auth } from './js/firebase-config.js';
-    import { openLightbox }      from './js/lightbox.js';
+    import { db, storage, auth } from './js/firebase-config.js?v=3';
+    import { openLightbox }      from './js/lightbox.js?v=3';
 
     const loginScreen = document.getElementById('login-screen');
     const adminPanel  = document.getElementById('admin-panel');

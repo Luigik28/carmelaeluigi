@@ -1,4 +1,4 @@
-import { compressImage } from './compress.js';
+import { compressImage } from './compress.js?v=3';
 
 /**
  * @param {object} opts
