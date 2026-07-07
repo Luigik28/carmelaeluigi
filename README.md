@@ -101,9 +101,12 @@ export const auth    = firebase.auth();
 ### Script da includere nell'`<head>` o prima del modulo:
 ```html
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 ```
+
+> `firebase-auth-compat.js` è necessario anche sulla pagina pubblica perché `firebase-config.js` esporta `auth = firebase.auth()`. Senza questo script, si ottiene `TypeError: firebase.auth is not a function`.
 
 ### HTML minimo necessario:
 ```html
@@ -334,3 +337,11 @@ La regola `[hidden]{display:none!important}` è necessaria perché `display:flex
 - `upload.js` usa il globale `firebase.firestore.FieldValue.serverTimestamp()` direttamente — funziona perché i moduli girano dopo i compat SDK.
 - La generazione della thumbnail avviene **in parallelo** all'upload full per minimizzare i tempi.
 - Per la cancellazione, `pathFromUrl(url)` estrae il path Storage dall'URL di download come fallback per upload precedenti senza il campo `path`.
+- **Cache-busting**: iOS Safari e altri browser cachano aggressivamente i moduli ES. Dopo ogni modifica a un file JS o CSS già distribuito, aggiungi o incrementa un query param negli import per forzare il fetch della versione aggiornata:
+  ```javascript
+  import { openLightbox } from './js/lightbox.js?v=2'; // incrementa v= ad ogni release
+  ```
+  Stessa cosa per il CSS:
+  ```html
+  <link rel="stylesheet" href="css/style.css?v=2">
+  ```
