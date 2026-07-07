@@ -99,9 +99,6 @@ async function download() {
   }
 }
 
-// I moduli ES sono deferred: vengono eseguiti dopo il parsing del DOM,
-// quindi document.body esiste già. Iniettare qui garantisce che iOS Safari
-// abbia già dipinto l'elemento (opacity:0) prima di qualsiasi transizione.
 if (document.body) {
   init();
 } else {
