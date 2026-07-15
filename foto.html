@@ -130,10 +130,19 @@
     let filtered      = [];
     let currentFilter = 'all';
 
+    const VIEW_ALL  = new URLSearchParams(window.location.search).has('viewall');
+    const CUTOFF    = new Date('2026-07-15T00:00:00');
+
+    function isVisible(item) {
+      if (VIEW_ALL) return true;
+      if (!item.createdAt) return true; // appena caricato, mostra feedback all'utente
+      return item.createdAt.toDate() >= CUTOFF;
+    }
+
     async function loadGallery() {
       try {
         const snap = await db.collection('uploads').orderBy('createdAt', 'desc').get();
-        items = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        items = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })).filter(isVisible);
       } catch(e) {
         console.error('Gallery load error:', e);
       }
@@ -199,7 +208,7 @@
       storage, db,
       collection: 'uploads',
       storagePath: 'matrimonio',
-      onUploaded: item => { items.unshift(item); renderGallery(); }
+      onUploaded: item => { if (isVisible(item)) { items.unshift(item); renderGallery(); } }
     });
 
     loadGallery();
